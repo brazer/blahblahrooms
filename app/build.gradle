@@ -1,11 +1,12 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.jetbrains.kotlin.android'
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
     defaultConfig {
         applicationId "com.softeq.blahblahrooms"
         minSdkVersion 15
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0-${System.env.VERSION_SHA}"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
