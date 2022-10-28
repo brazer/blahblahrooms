@@ -1,4 +1,4 @@
-package com.example.myfirstapp;
+package com.softeq.blahblahrooms;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

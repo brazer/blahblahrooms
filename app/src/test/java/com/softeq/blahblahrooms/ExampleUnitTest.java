@@ -1,4 +1,4 @@
-package com.example.myfirstapp;
+package com.softeq.blahblahrooms;
 
 import org.junit.Test;
 
