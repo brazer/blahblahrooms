@@ -11,15 +11,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
-fun OrbitScreen(orbitViewModel: OrbitViewModel) {
+fun OrbitScreen() {
 
+    val orbitViewModel: OrbitViewModel = hiltViewModel()
     val scaffoldState = rememberScaffoldState()
     val state = orbitViewModel.collectAsState()
     val context = LocalContext.current
+
 
     orbitViewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
@@ -48,5 +51,5 @@ fun OrbitScreen(orbitViewModel: OrbitViewModel) {
 @Preview
 @Composable
 fun PreviewOrbitScreen() {
-    OrbitScreen(OrbitViewModel())
+    OrbitScreen()
 }
