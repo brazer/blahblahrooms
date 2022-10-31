@@ -63,6 +63,13 @@ fun OrbitScreen(
             }) {
                 Text(text = "Go to ArgScreen")
             }
+            Button(onClick = {
+                navController.navigate(
+                    NavigationRoute.ROUTE_GOOGLE_MAPS
+                )
+            }) {
+                Text(text = "Go to Google Maps")
+            }
         }
     }
 }
