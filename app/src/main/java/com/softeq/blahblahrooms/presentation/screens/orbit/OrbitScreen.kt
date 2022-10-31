@@ -12,11 +12,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import com.softeq.blahblahrooms.presentation.route.NavigationArguments
+import com.softeq.blahblahrooms.presentation.route.NavigationRoute
+import com.softeq.blahblahrooms.presentation.route.navigateString
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
-fun OrbitScreen() {
+fun OrbitScreen(
+    navController: NavController
+) {
 
     val orbitViewModel: OrbitViewModel = hiltViewModel()
     val scaffoldState = rememberScaffoldState()
@@ -44,6 +50,26 @@ fun OrbitScreen() {
             ) {
                 Text("Add")
             }
+            Button(onClick = {
+                navController.navigate(
+                    navigateString(
+                        NavigationRoute.ROUTE_ARG,
+                        Pair(
+                            NavigationArguments.ARGUMENT_COUNT,
+                            state.value.sum
+                        )
+                    )
+                )
+            }) {
+                Text(text = "Go to ArgScreen")
+            }
+            Button(onClick = {
+                navController.navigate(
+                    NavigationRoute.ROUTE_GOOGLE_MAPS
+                )
+            }) {
+                Text(text = "Go to Google Maps")
+            }
         }
     }
 }
@@ -51,5 +77,7 @@ fun OrbitScreen() {
 @Preview
 @Composable
 fun PreviewOrbitScreen() {
-    OrbitScreen()
+    OrbitScreen(
+        navController = NavController(LocalContext.current)
+    )
 }
