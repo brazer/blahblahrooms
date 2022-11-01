@@ -1,4 +1,4 @@
-package com.softeq.blahblahrooms.presentation.screens.orbit
+package com.softeq.blahblahrooms.presentation.vm
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

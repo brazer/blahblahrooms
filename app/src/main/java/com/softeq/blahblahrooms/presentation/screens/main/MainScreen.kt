@@ -1,4 +1,4 @@
-package com.softeq.blahblahrooms.presentation.screens.orbit
+package com.softeq.blahblahrooms.presentation.screens.main
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
@@ -16,6 +16,8 @@ import androidx.navigation.NavController
 import com.softeq.blahblahrooms.presentation.route.NavigationArguments
 import com.softeq.blahblahrooms.presentation.route.NavigationRoute
 import com.softeq.blahblahrooms.presentation.route.navigateString
+import com.softeq.blahblahrooms.presentation.vm.MainSideEffect
+import com.softeq.blahblahrooms.presentation.vm.MainViewModel
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 

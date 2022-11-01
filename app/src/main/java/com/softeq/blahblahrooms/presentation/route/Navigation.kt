@@ -8,7 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.softeq.blahblahrooms.presentation.screens.arg.ArgScreen
 import com.softeq.blahblahrooms.presentation.screens.googlemap.GoogleMapScreen
-import com.softeq.blahblahrooms.presentation.screens.orbit.MainScreen
+import com.softeq.blahblahrooms.presentation.screens.main.MainScreen
 
 @Composable
 fun Navigation() {
