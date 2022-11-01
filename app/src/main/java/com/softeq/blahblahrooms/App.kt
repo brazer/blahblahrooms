@@ -1,4 +1,4 @@
-package com.softeq.blahblahrooms.presentation
+package com.softeq.blahblahrooms
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

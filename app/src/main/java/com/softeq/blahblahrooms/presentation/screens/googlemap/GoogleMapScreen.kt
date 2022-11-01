@@ -3,9 +3,12 @@ package com.softeq.blahblahrooms.presentation.screens.googlemap
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Button
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -13,6 +16,7 @@ import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
+import com.softeq.blahblahrooms.presentation.ui.BlahBlahRoomsTheme
 
 @Composable
 fun GoogleMapScreen(
@@ -37,6 +41,16 @@ fun GoogleMapScreen(
                 title = "Singapore",
                 snippet = "Marker in Singapore"
             )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun GoogleMapScreenPreview() {
+    BlahBlahRoomsTheme {
+        Surface {
+            GoogleMapScreen(NavController(LocalContext.current))
         }
     }
 }

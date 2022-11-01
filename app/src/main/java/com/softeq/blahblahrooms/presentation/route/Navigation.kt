@@ -8,7 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.softeq.blahblahrooms.presentation.screens.arg.ArgScreen
 import com.softeq.blahblahrooms.presentation.screens.googlemap.GoogleMapScreen
-import com.softeq.blahblahrooms.presentation.screens.orbit.OrbitScreen
+import com.softeq.blahblahrooms.presentation.screens.orbit.MainScreen
 
 @Composable
 fun Navigation() {
@@ -17,7 +17,7 @@ fun Navigation() {
     NavHost(navController = navController, startDestination = NavigationRoute.ROUTE_ORBIT) {
 
         composable(NavigationRoute.ROUTE_ORBIT) {
-            OrbitScreen(navController = navController)
+            MainScreen(navController = navController)
         }
 
         composable(NavigationRoute.ROUTE_GOOGLE_MAPS) {

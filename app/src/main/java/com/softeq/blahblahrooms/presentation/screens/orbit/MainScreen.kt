@@ -20,19 +20,18 @@ import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
-fun OrbitScreen(
+fun MainScreen(
     navController: NavController
 ) {
 
-    val orbitViewModel: OrbitViewModel = hiltViewModel()
+    val mainViewModel: MainViewModel = hiltViewModel()
     val scaffoldState = rememberScaffoldState()
-    val state = orbitViewModel.collectAsState()
+    val state = mainViewModel.collectAsState()
     val context = LocalContext.current
 
-
-    orbitViewModel.collectSideEffect { sideEffect ->
+    mainViewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
-            is OrbitSideEffect.Toast -> {
+            is MainSideEffect.Toast -> {
                 Toast.makeText(context, sideEffect.text, Toast.LENGTH_SHORT).show()
             }
         }
@@ -44,9 +43,7 @@ fun OrbitScreen(
         Column(modifier = Modifier.padding(it)) {
             Text("Sum = ${state.value.sum}")
             Button(
-                onClick = {
-                    orbitViewModel.addButtonClicked()
-                }
+                onClick = mainViewModel::addButtonClicked
             ) {
                 Text("Add")
             }
@@ -76,8 +73,8 @@ fun OrbitScreen(
 
 @Preview
 @Composable
-fun PreviewOrbitScreen() {
-    OrbitScreen(
+fun PreviewMainScreen() {
+    MainScreen(
         navController = NavController(LocalContext.current)
     )
 }

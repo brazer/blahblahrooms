@@ -10,13 +10,13 @@ import org.orbitmvi.orbit.viewmodel.container
 import javax.inject.Inject
 
 @HiltViewModel
-class OrbitViewModel @Inject constructor() : ContainerHost<OrbitState, OrbitSideEffect>,
+class MainViewModel @Inject constructor() : ContainerHost<MainState, MainSideEffect>,
     ViewModel() {
 
-    override val container = container<OrbitState, OrbitSideEffect>(OrbitState(sum = 0))
+    override val container = container<MainState, MainSideEffect>(MainState(sum = 0))
 
     fun addButtonClicked() = intent {
-        postSideEffect(OrbitSideEffect.Toast("Add button clicked"))
+        postSideEffect(MainSideEffect.Toast("Add button clicked"))
 
         reduce {
             state.copy(sum = state.sum + 1)
@@ -24,10 +24,10 @@ class OrbitViewModel @Inject constructor() : ContainerHost<OrbitState, OrbitSide
     }
 }
 
-data class OrbitState(
+data class MainState(
     val sum: Int
 )
 
-sealed class OrbitSideEffect {
-    data class Toast(val text: String) : OrbitSideEffect()
+sealed class MainSideEffect {
+    data class Toast(val text: String) : MainSideEffect()
 }

@@ -1,6 +1,7 @@
 # Introduction
 
-This is a template for doing Android development using GitLab and [fastlane](https://fastlane.tools/).
+The BlahBlahRooms app allows a user to find a room or a flat on the map.
+This app is created by a template for doing Android development using GitLab and [fastlane](https://fastlane.tools/).
 It is based on the tutorial for Android apps in general that can be found [here](https://developer.android.com/training/basics/firstapp/). 
 If you're learning Android at the same time, you can also follow along that
 tutorial and learn how to do everything all at once.
@@ -20,19 +21,6 @@ get Android Studio installed on your machine, so you can do development using
 the Android IDE. Other IDE options are possible, but not directly described or
 supported here. If you're using your own IDE, it should be fairly straightforward
 to convert these instructions to use with your preferred toolchain.
-
-## What's contained in this project
-
-### Android code
-
-The state of this project is as if you followed the first few steps in the linked
-[Android tutorial](https://developer.android.com/training/basics/firstapp/) and
-have created your project. You're definitely going to want to open up the
-project and change the settings to match what you plan to build. In particular,
-you're at least going to want to change the following:
-
-- Application Name: "My First App"
-- Company Domain: "example.com"
 
 ### Fastlane files
 
