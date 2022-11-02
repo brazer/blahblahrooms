@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">BlaBlaRooms</string>
+    <string name="rooms_flats">Rooms/Flats</string>
+    <string name="long_term">Long-term</string>
+    <string name="short_term">Short-term</string>
+    <string name="back">Back</string>
 </resources>

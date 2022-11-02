@@ -9,15 +9,20 @@ import androidx.navigation.navArgument
 import com.softeq.blahblahrooms.presentation.screens.arg.ArgScreen
 import com.softeq.blahblahrooms.presentation.screens.googlemap.GoogleMapScreen
 import com.softeq.blahblahrooms.presentation.screens.main.MainScreen
+import com.softeq.blahblahrooms.presentation.screens.rooms.RoomsScreen
 
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = NavigationRoute.ROUTE_ORBIT) {
+    NavHost(navController = navController, startDestination = NavigationRoute.ROUTE_MAIN) {
 
-        composable(NavigationRoute.ROUTE_ORBIT) {
+        composable(NavigationRoute.ROUTE_MAIN) {
             MainScreen(navController = navController)
+        }
+
+        composable(NavigationRoute.ROUTE_ROOMS) {
+            RoomsScreen(navController = navController)
         }
 
         composable(NavigationRoute.ROUTE_GOOGLE_MAPS) {
