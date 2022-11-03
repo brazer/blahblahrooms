@@ -17,8 +17,8 @@ import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.softeq.blahblahrooms.R
 import com.softeq.blahblahrooms.data.providers.CurrentLocationProvider
+import com.softeq.blahblahrooms.data.providers.getMarkerTitle
 import com.softeq.blahblahrooms.data.providers.getSnippet
-import com.softeq.blahblahrooms.data.providers.getTitle
 import com.softeq.blahblahrooms.presentation.vm.rooms.RoomsState
 import com.softeq.blahblahrooms.presentation.vm.rooms.RoomsViewModel
 import org.orbitmvi.orbit.compose.collectAsState
@@ -31,7 +31,7 @@ fun RoomsScreen(navController: NavController) {
             position = CameraPosition.fromLatLngZoom(currentLocation, 10f)
         }
     } else rememberCameraPositionState()
-    val viewModel : RoomsViewModel = hiltViewModel()
+    val viewModel: RoomsViewModel = hiltViewModel()
     val state = viewModel.collectAsState()
     Column(modifier = Modifier.fillMaxSize()) {
         Button(onClick = {
@@ -52,7 +52,7 @@ fun RoomsScreen(navController: NavController) {
                     (state.value as RoomsState.Loaded).rooms.forEach {
                         Marker(
                             state = MarkerState(position = it.location),
-                            title = it.getTitle(),
+                            title = it.getMarkerTitle(),
                             snippet = it.getSnippet()
                         )
                     }

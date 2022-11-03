@@ -14,7 +14,7 @@ fun Period.getString(resources: Resources): String {
     }
 }
 
-fun Room.getTitle(): String {
+fun Room.getMarkerTitle(): String {
     return NumberFormat.getCurrencyInstance(Locale.US).format(price)
 }
 
