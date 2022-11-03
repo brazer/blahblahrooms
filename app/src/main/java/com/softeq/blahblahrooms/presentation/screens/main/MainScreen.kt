@@ -10,14 +10,16 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.softeq.blahblahrooms.R
 import com.softeq.blahblahrooms.presentation.route.NavigationArguments
 import com.softeq.blahblahrooms.presentation.route.NavigationRoute
 import com.softeq.blahblahrooms.presentation.route.navigateString
-import com.softeq.blahblahrooms.presentation.vm.MainSideEffect
-import com.softeq.blahblahrooms.presentation.vm.MainViewModel
+import com.softeq.blahblahrooms.presentation.vm.main.MainSideEffect
+import com.softeq.blahblahrooms.presentation.vm.main.MainViewModel
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 
@@ -48,6 +50,11 @@ fun MainScreen(
                 onClick = mainViewModel::addButtonClicked
             ) {
                 Text("Add")
+            }
+            Button(onClick = {
+                navController.navigate(NavigationRoute.ROUTE_ROOMS)
+            }) {
+                Text(stringResource(id = R.string.rooms_flats))
             }
             Button(onClick = {
                 navController.navigate(
