@@ -4,4 +4,16 @@
     <string name="long_term">Long-term</string>
     <string name="short_term">Short-term</string>
     <string name="back">Back</string>
+
+    <!--    Edit Room-->
+    <string name="price">Price</string>
+    <string name="location">Location</string>
+    <string name="latitude">latitude</string>
+    <string name="longitude">longitude</string>
+    <string name="address">Address</string>
+    <string name="description">Description</string>
+    <string name="period">Period</string>
+    <string name="period_short">Short</string>
+    <string name="period_long">Long</string>
+    <string name="contacts">Contacts</string>
 </resources>
