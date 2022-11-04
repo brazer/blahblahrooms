@@ -34,17 +34,15 @@ fun EditRoom(
     ) {
 
         Text(text = context.getString(R.string.price))
-        var price by remember { mutableStateOf(room.price) }
         TextField(
-            value = price.toString(),
+            value = room.price.toString(),
             onValueChange = {
-                price = it.toFloatOrNull() ?: 0f
-                onPriceChanged(price)
+                onPriceChanged(it.toFloatOrNull() ?: 0f)
             }
         )
 
-        var latitude by remember { mutableStateOf(room.location.latitude) }
-        var longitude by remember { mutableStateOf(room.location.longitude) }
+        val latitude = room.location.latitude
+        val longitude = room.location.longitude
 
         Text(text = context.getString(R.string.location))
         Row {
@@ -55,8 +53,7 @@ fun EditRoom(
             TextField(
                 value = latitude.toString(),
                 onValueChange = {
-                    latitude = it.toDoubleOrNull() ?: 0.0
-                    onLocationChanged(LatLng(latitude, longitude))
+                    onLocationChanged(LatLng(it.toDoubleOrNull() ?: 0.0, longitude))
                 },
                 modifier = Modifier.weight(1f),
             )
@@ -67,51 +64,49 @@ fun EditRoom(
             TextField(
                 value = longitude.toString(),
                 onValueChange = {
-                    longitude = it.toDoubleOrNull() ?: 0.0
-                    onLocationChanged(LatLng(latitude, longitude))
+                    onLocationChanged(LatLng(latitude, it.toDoubleOrNull() ?: 0.0))
                 },
                 modifier = Modifier.weight(1f),
             )
         }
 
-        var address by remember { mutableStateOf(room.address) }
+
         Text(text = context.getString(R.string.address))
         TextField(
-            value = address,
+            value = room.address,
             onValueChange = {
-                address = it
-                onAddressChanged(address)
+                onAddressChanged(it)
             }
         )
 
         Text(text = context.getString(R.string.description))
-        var description by remember { mutableStateOf(room.description) }
         TextField(
-            value = description,
+            value = room.description,
             onValueChange = {
-                description = it
-                onDescriptionChanged(description)
+                onDescriptionChanged(it)
             }
         )
 
         Text(text = context.getString(R.string.period))
         Row {
             Text(text = context.getString(R.string.period_short))
-            var checked by remember { mutableStateOf(room.period == Period.LONG) }
-            Switch(checked = checked, onCheckedChange = {
-                checked = it
-                onPeriodChanged(if (checked) Period.LONG else Period.SHORT)
+            Switch(checked = room.period == Period.LONG, onCheckedChange = {
+                onPeriodChanged(
+                    if (it) {
+                        Period.LONG
+                    } else {
+                        Period.SHORT
+                    }
+                )
             })
             Text(text = context.getString(R.string.period_long))
         }
 
         Text(text = context.getString(R.string.contacts))
-        var email by remember { mutableStateOf(room.email) }
         TextField(
-            value = email,
+            value = room.email,
             onValueChange = {
-                email = it
-                onEmailChanged(email)
+                onEmailChanged(it)
             }
         )
     }

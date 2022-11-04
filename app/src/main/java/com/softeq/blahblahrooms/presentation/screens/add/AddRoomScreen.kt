@@ -12,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.softeq.blahblahrooms.R
+import com.softeq.blahblahrooms.domain.models.Room
 import com.softeq.blahblahrooms.presentation.components.EditRoom
 import com.softeq.blahblahrooms.presentation.vm.add.AddRoomSideEffect
 import com.softeq.blahblahrooms.presentation.vm.add.AddRoomState
@@ -23,25 +24,13 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 fun AddRoomScreen(navController: NavController) {
     val viewModel: AddRoomViewModel = hiltViewModel()
     val state = viewModel.collectAsState()
-    Column(modifier = Modifier.fillMaxHeight()) {
-        EditRoom(
-            room = viewModel.getRoom(),
-            onPriceChanged = viewModel::onPriceChanged,
-            onLocationChanged = viewModel::onLocationChanged,
-            onAddressChanged = viewModel::onAddressChanged,
-            onDescriptionChanged = viewModel::onDescriptionChanged,
-            onPeriodChanged = viewModel::onPeriodChanged,
-            onEmailChanged = viewModel::onEmailChanged
-        )
-        Button(onClick = viewModel::addRoom) {
-            Text(text = stringResource(id = R.string.add))
-        }
-    }
-    when (state.value) {
+    when (val v = state.value) {
         AddRoomState.AddingOfRoom -> {
             CircularProgressIndicator()
         }
-        AddRoomState.Opened -> {}
+        is AddRoomState.OnRoomChanged -> {
+            RoomEditView(room = v.room, viewModel = viewModel, navController = navController)
+        }
     }
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
@@ -51,6 +40,29 @@ fun AddRoomScreen(navController: NavController) {
             is AddRoomSideEffect.Toast -> {
                 Toast.makeText(sideEffect.context, sideEffect.message, Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+}
+
+@Composable
+private fun RoomEditView(navController: NavController, room: Room, viewModel: AddRoomViewModel) {
+    Column(modifier = Modifier.fillMaxHeight()) {
+        Button(onClick = {
+            navController.popBackStack()
+        }) {
+            Text(text = stringResource(id = R.string.back))
+        }
+        EditRoom(
+            room = room,
+            onPriceChanged = viewModel::onPriceChanged,
+            onLocationChanged = viewModel::onLocationChanged,
+            onAddressChanged = viewModel::onAddressChanged,
+            onDescriptionChanged = viewModel::onDescriptionChanged,
+            onPeriodChanged = viewModel::onPeriodChanged,
+            onEmailChanged = viewModel::onEmailChanged
+        )
+        Button(onClick = viewModel::addRoom) {
+            Text(text = stringResource(id = R.string.add))
         }
     }
 }
