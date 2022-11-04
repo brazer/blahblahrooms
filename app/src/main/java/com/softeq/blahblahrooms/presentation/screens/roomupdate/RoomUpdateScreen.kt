@@ -40,7 +40,7 @@ fun RoomUpdateScreen(
             RoomUpdateSideEffect.BackToPreviousScreen -> {
                 navController.popBackStack()
             }
-            is RoomUpdateSideEffect.NotValidException -> {
+            is RoomUpdateSideEffect.ShowError -> {
                 Toast.makeText(context, sideEffect.errorMessage, Toast.LENGTH_SHORT).show()
             }
         }

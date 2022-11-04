@@ -9,7 +9,6 @@ import com.softeq.blahblahrooms.domain.models.Period
 import com.softeq.blahblahrooms.domain.models.Room
 import com.softeq.blahblahrooms.domain.usecases.UpdateRoomUseCase
 import com.softeq.blahblahrooms.presentation.EditRoomInterface
-import com.softeq.blahblahrooms.presentation.exception.RoomNotValidException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -72,19 +71,18 @@ class RoomUpdateViewModel @Inject constructor(
     }
 
     fun saveButtonClicked() = intent {
-        try {
-            state.room?.let {
-                reduce { state.copy(isLoading = true) }
-                it.isValid(getContext().resources)?.let { errorMessage ->
-                    throw RoomNotValidException(errorMessage = errorMessage)
-                }
+
+        state.room?.let {
+            reduce { state.copy(isLoading = true) }
+            val errorMessage = it.isValid(getContext().resources)
+            if (errorMessage != null) {
+                postSideEffect(RoomUpdateSideEffect.ShowError(errorMessage))
+            } else {
                 updateRoomUseCase.invoke(room = it)
-                reduce { state.copy(isLoading = true) }
             }
-            postSideEffect(RoomUpdateSideEffect.BackToPreviousScreen)
-        } catch (e: RoomNotValidException) {
-            postSideEffect(RoomUpdateSideEffect.NotValidException(e.message ?: ""))
+            reduce { state.copy(isLoading = true) }
         }
+        postSideEffect(RoomUpdateSideEffect.BackToPreviousScreen)
     }
 
     private fun getContext() = getApplication<App>()
@@ -103,5 +101,5 @@ data class RoomUpdateState(
 
 sealed class RoomUpdateSideEffect {
     object BackToPreviousScreen : RoomUpdateSideEffect()
-    data class NotValidException(val errorMessage: String) : RoomUpdateSideEffect()
+    data class ShowError(val errorMessage: String) : RoomUpdateSideEffect()
 }
