@@ -4,12 +4,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Surface
 import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import com.google.android.gms.maps.model.LatLng
 import com.softeq.blahblahrooms.R
 import com.softeq.blahblahrooms.domain.models.Period
@@ -32,15 +34,17 @@ fun EditRoom(
     ) {
 
         Text(text = context.getString(R.string.price))
+        var price by remember { mutableStateOf(room.price) }
         TextField(
-            value = room.price.toString(),
+            value = price.toString(),
             onValueChange = {
-                onPriceChanged(it.toFloatOrNull() ?: 0f)
+                price = it.toFloatOrNull() ?: 0f
+                onPriceChanged(price)
             }
         )
 
-        val latitude = room.location.latitude
-        val longitude = room.location.longitude
+        var latitude by remember { mutableStateOf(room.location.latitude) }
+        var longitude by remember { mutableStateOf(room.location.longitude) }
 
         Text(text = context.getString(R.string.location))
         Row {
@@ -51,7 +55,8 @@ fun EditRoom(
             TextField(
                 value = latitude.toString(),
                 onValueChange = {
-                    onLocationChanged(LatLng(it.toDoubleOrNull() ?: 0.0, longitude))
+                    latitude = it.toDoubleOrNull() ?: 0.0
+                    onLocationChanged(LatLng(latitude, longitude))
                 },
                 modifier = Modifier.weight(1f),
             )
@@ -62,50 +67,70 @@ fun EditRoom(
             TextField(
                 value = longitude.toString(),
                 onValueChange = {
-                    onLocationChanged(LatLng(latitude, it.toDoubleOrNull() ?: 0.0))
+                    longitude = it.toDoubleOrNull() ?: 0.0
+                    onLocationChanged(LatLng(latitude, longitude))
                 },
                 modifier = Modifier.weight(1f),
             )
         }
 
-
+        var address by remember { mutableStateOf(room.address) }
         Text(text = context.getString(R.string.address))
         TextField(
-            value = room.address,
+            value = address,
             onValueChange = {
-                onAddressChanged(it)
+                address = it
+                onAddressChanged(address)
             }
         )
 
         Text(text = context.getString(R.string.description))
+        var description by remember { mutableStateOf(room.description) }
         TextField(
-            value = room.description,
+            value = description,
             onValueChange = {
-                onDescriptionChanged(it)
+                description = it
+                onDescriptionChanged(description)
             }
         )
 
         Text(text = context.getString(R.string.period))
         Row {
             Text(text = context.getString(R.string.period_short))
-            Switch(checked = room.period == Period.LONG, onCheckedChange = {
-                onPeriodChanged(
-                    if (it) {
-                        Period.LONG
-                    } else {
-                        Period.SHORT
-                    }
-                )
+            var checked by remember { mutableStateOf(room.period == Period.LONG) }
+            Switch(checked = checked, onCheckedChange = {
+                checked = it
+                onPeriodChanged(if (checked) Period.LONG else Period.SHORT)
             })
             Text(text = context.getString(R.string.period_long))
         }
 
         Text(text = context.getString(R.string.contacts))
+        var email by remember { mutableStateOf(room.email) }
         TextField(
-            value = room.email,
+            value = email,
             onValueChange = {
-                onEmailChanged(it)
+                email = it
+                onEmailChanged(email)
             }
+        )
+    }
+}
+
+@Preview
+@Composable
+fun EditRoomPreview() {
+    val room = Room(1, 100.0f, LatLng(32.0, 54.0), "address",
+        Period.SHORT, "Description", "email")
+    Surface {
+        EditRoom(
+            room = room,
+            onPriceChanged = {},
+            onLocationChanged = {},
+            onAddressChanged = {},
+            onDescriptionChanged = {},
+            onPeriodChanged = {},
+            onEmailChanged = {}
         )
     }
 }

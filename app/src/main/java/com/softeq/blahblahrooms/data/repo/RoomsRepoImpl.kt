@@ -8,8 +8,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
+import javax.inject.Singleton
+import kotlin.random.Random
 
+@Singleton
 class RoomsRepoImpl @Inject constructor() : RoomsRepo {
+
     override suspend fun getRooms(): Flow<List<Room>> = flow {
         //todo: get from api
         delay(3000)
@@ -21,4 +25,14 @@ class RoomsRepoImpl @Inject constructor() : RoomsRepo {
             Room(5, 12000f, LatLng(53.923807, 27.469993), "Address here", Period.SHORT, "Description", "pup@tut.by")
         ))
     }
+
+    override suspend fun addRoom(room: Room): Flow<Unit> = flow {
+        //todo: use api
+        delay(3000)
+        val error = Random.nextInt(100) <= 50
+        if (error) {
+            throw RuntimeException()
+        } else emit(Unit)
+    }
+
 }

@@ -52,6 +52,13 @@ fun MainScreen(
                 Text("Add")
             }
             Button(onClick = {
+                navController.navigate(
+                    NavigationRoute.ROUTE_ADD_ROOM
+                )
+            }) {
+                Text(text = stringResource(id = R.string.add_room))
+            }
+            Button(onClick = {
                 navController.navigate(NavigationRoute.ROUTE_ROOMS)
             }) {
                 Text(stringResource(id = R.string.rooms_flats))
@@ -68,13 +75,6 @@ fun MainScreen(
                 )
             }) {
                 Text(text = "Go to ArgScreen")
-            }
-            Button(onClick = {
-                navController.navigate(
-                    NavigationRoute.ROUTE_GOOGLE_MAPS
-                )
-            }) {
-                Text(text = "Go to Google Maps")
             }
         }
     }

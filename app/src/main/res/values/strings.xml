@@ -1,9 +1,8 @@
 <resources>
     <string name="app_name">BlaBlaRooms</string>
     <string name="rooms_flats">Rooms/Flats</string>
-    <string name="long_term">Long-term</string>
-    <string name="short_term">Short-term</string>
     <string name="back">Back</string>
+    <string name="add_room">Add a room/flat</string>
 
     <!--    Edit Room-->
     <string name="price">Price</string>
@@ -16,4 +15,15 @@
     <string name="period_short">Short</string>
     <string name="period_long">Long</string>
     <string name="contacts">Contacts</string>
+
+    <string name="room_added">The room/flat is added</string>
+    <string name="room_not_added">The room/flat is not added</string>
+    <string name="add">Add</string>
+
+    <!-- Errors in room form -->
+    <string name="incorrect_email">The email is incorrect</string>
+    <string name="empty_desc">The description is empty</string>
+    <string name="empty_address">The address is empty</string>
+    <string name="incorrect_price">The price is incorrect</string>
+
 </resources>
