@@ -3,8 +3,8 @@ package com.softeq.blahblahrooms.presentation.route
 object NavigationRoute {
     const val ROUTE_MAIN = "route_main"
     const val ROUTE_ROOMS = "route_rooms"
+    const val ROUTE_ADD_ROOM = "route_add_room"
     const val ROUTE_ARG = "route_arg"
-    const val ROUTE_GOOGLE_MAPS = "route_google_maps"
 }
 
 object NavigationArguments {

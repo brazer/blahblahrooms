@@ -4,12 +4,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Surface
 import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import com.google.android.gms.maps.model.LatLng
 import com.softeq.blahblahrooms.R
 import com.softeq.blahblahrooms.domain.models.Period
@@ -106,6 +108,24 @@ fun EditRoom(
             onValueChange = {
                 onEmailChanged(it)
             }
+        )
+    }
+}
+
+@Preview
+@Composable
+fun EditRoomPreview() {
+    val room = Room(1, 100.0f, LatLng(32.0, 54.0), "address",
+        Period.SHORT, "Description", "email")
+    Surface {
+        EditRoom(
+            room = room,
+            onPriceChanged = {},
+            onLocationChanged = {},
+            onAddressChanged = {},
+            onDescriptionChanged = {},
+            onPeriodChanged = {},
+            onEmailChanged = {}
         )
     }
 }

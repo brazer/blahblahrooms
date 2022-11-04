@@ -6,8 +6,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.softeq.blahblahrooms.presentation.screens.add.AddRoomScreen
 import com.softeq.blahblahrooms.presentation.screens.arg.ArgScreen
-import com.softeq.blahblahrooms.presentation.screens.googlemap.GoogleMapScreen
 import com.softeq.blahblahrooms.presentation.screens.main.MainScreen
 import com.softeq.blahblahrooms.presentation.screens.rooms.RoomsScreen
 
@@ -25,8 +25,8 @@ fun Navigation() {
             RoomsScreen(navController = navController)
         }
 
-        composable(NavigationRoute.ROUTE_GOOGLE_MAPS) {
-            GoogleMapScreen(navController = navController)
+        composable(NavigationRoute.ROUTE_ADD_ROOM) {
+            AddRoomScreen(navController = navController)
         }
 
         composable(
