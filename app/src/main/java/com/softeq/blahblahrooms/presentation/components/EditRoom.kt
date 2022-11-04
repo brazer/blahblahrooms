@@ -8,9 +8,9 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.google.android.gms.maps.model.LatLng
 import com.softeq.blahblahrooms.R
@@ -28,12 +28,11 @@ fun EditRoom(
     onEmailChanged: (email: String) -> Unit,
 ) {
     val state = rememberScrollState()
-    val context = LocalContext.current
     Column(
         modifier = Modifier.verticalScroll(state)
     ) {
 
-        Text(text = context.getString(R.string.price))
+        Text(text = stringResource(R.string.price))
         TextField(
             value = room.price.toString(),
             onValueChange = {
@@ -44,11 +43,11 @@ fun EditRoom(
         val latitude = room.location.latitude
         val longitude = room.location.longitude
 
-        Text(text = context.getString(R.string.location))
+        Text(text = stringResource(R.string.location))
         Row {
             Text(
                 modifier = Modifier.weight(1f),
-                text = context.getString(R.string.latitude)
+                text = stringResource(R.string.latitude)
             )
             TextField(
                 value = latitude.toString(),
@@ -59,7 +58,7 @@ fun EditRoom(
             )
             Text(
                 modifier = Modifier.weight(1f),
-                text = context.getString(R.string.longitude)
+                text = stringResource(R.string.longitude)
             )
             TextField(
                 value = longitude.toString(),
@@ -71,7 +70,7 @@ fun EditRoom(
         }
 
 
-        Text(text = context.getString(R.string.address))
+        Text(text = stringResource(R.string.address))
         TextField(
             value = room.address,
             onValueChange = {
@@ -79,7 +78,7 @@ fun EditRoom(
             }
         )
 
-        Text(text = context.getString(R.string.description))
+        Text(text = stringResource(R.string.description))
         TextField(
             value = room.description,
             onValueChange = {
@@ -87,9 +86,9 @@ fun EditRoom(
             }
         )
 
-        Text(text = context.getString(R.string.period))
+        Text(text = stringResource(R.string.period))
         Row {
-            Text(text = context.getString(R.string.period_short))
+            Text(text = stringResource(R.string.period_short))
             Switch(checked = room.period == Period.LONG, onCheckedChange = {
                 onPeriodChanged(
                     if (it) {
@@ -99,10 +98,10 @@ fun EditRoom(
                     }
                 )
             })
-            Text(text = context.getString(R.string.period_long))
+            Text(text = stringResource(R.string.period_long))
         }
 
-        Text(text = context.getString(R.string.contacts))
+        Text(text = stringResource(R.string.contacts))
         TextField(
             value = room.email,
             onValueChange = {
@@ -115,8 +114,10 @@ fun EditRoom(
 @Preview
 @Composable
 fun EditRoomPreview() {
-    val room = Room(1, 100.0f, LatLng(32.0, 54.0), "address",
-        Period.SHORT, "Description", "email")
+    val room = Room(
+        1, "1", 100.0f, LatLng(32.0, 54.0), "address",
+        Period.SHORT, "Description", "email"
+    )
     Surface {
         EditRoom(
             room = room,

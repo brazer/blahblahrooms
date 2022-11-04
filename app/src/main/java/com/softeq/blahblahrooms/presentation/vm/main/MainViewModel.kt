@@ -1,7 +1,11 @@
 package com.softeq.blahblahrooms.presentation.vm.main
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.softeq.blahblahrooms.domain.models.Room
+import com.softeq.blahblahrooms.domain.usecases.SetUserIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
@@ -10,24 +14,49 @@ import org.orbitmvi.orbit.viewmodel.container
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor() : ContainerHost<MainState, MainSideEffect>,
+class MainViewModel @Inject constructor(
+    private val setUserIdUseCase: SetUserIdUseCase
+) : ContainerHost<MainState, MainSideEffect>,
     ViewModel() {
 
-    override val container = container<MainState, MainSideEffect>(MainState(sum = 0))
+    override val container = container<MainState, MainSideEffect>(MainState())
+    private var userRooms: List<Room> = emptyList()
 
-    fun addButtonClicked() = intent {
-        postSideEffect(MainSideEffect.Toast("Add button clicked"))
+    init {
+        initUserId()
+    }
 
-        reduce {
-            state.copy(sum = state.sum + 1)
+    private fun initUserId() {
+        viewModelScope.launch {
+            setUserIdUseCase.invoke()
         }
+    }
+
+    fun userRoomsChanged(rooms: List<Room>) = intent {
+        userRooms = rooms
+        if (userRooms.isNotEmpty()) {
+            reduce { state.copy(isManageRoomButtonVisible = true) }
+        }
+    }
+
+    fun manageRoomsButtonClicked() = intent {
+        when (userRooms.size) {
+            1 -> {
+                postSideEffect(MainSideEffect.NavigateToRoomUpdateScreen(userRooms.first().id))
+            }
+            else -> {
+                postSideEffect(MainSideEffect.NavigateToManageRoomsScreen)
+            }
+        }
+
     }
 }
 
 data class MainState(
-    val sum: Int
+    val isManageRoomButtonVisible: Boolean = false
 )
 
 sealed class MainSideEffect {
-    data class Toast(val text: String) : MainSideEffect()
+    object NavigateToManageRoomsScreen : MainSideEffect()
+    data class NavigateToRoomUpdateScreen(val roomId: Int) : MainSideEffect()
 }

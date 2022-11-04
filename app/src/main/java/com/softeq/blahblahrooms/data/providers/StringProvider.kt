@@ -11,6 +11,10 @@ fun Room.getMarkerTitle(): String {
     return NumberFormat.getCurrencyInstance(Locale.US).format(price)
 }
 
+fun Room.getPriceUSFormat(): String {
+    return NumberFormat.getCurrencyInstance(Locale.US).format(price)
+}
+
 fun Room.getSnippet(): String {
     return this.description
 }

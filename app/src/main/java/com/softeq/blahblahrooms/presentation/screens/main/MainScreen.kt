@@ -1,13 +1,13 @@
 package com.softeq.blahblahrooms.presentation.screens.main
 
-import android.widget.Toast
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -20,23 +20,37 @@ import com.softeq.blahblahrooms.presentation.route.NavigationRoute
 import com.softeq.blahblahrooms.presentation.route.navigateString
 import com.softeq.blahblahrooms.presentation.vm.main.MainSideEffect
 import com.softeq.blahblahrooms.presentation.vm.main.MainViewModel
+import com.softeq.blahblahrooms.presentation.vm.shared.SharedRoomsViewModel
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @Composable
 fun MainScreen(
-    navController: NavController
+    navController: NavController,
+    sharedRoomsViewModel: SharedRoomsViewModel
 ) {
 
     val mainViewModel: MainViewModel = hiltViewModel()
+    val sharedState = sharedRoomsViewModel.collectAsState()
     val scaffoldState = rememberScaffoldState()
     val state = mainViewModel.collectAsState()
-    val context = LocalContext.current
+
+    LaunchedEffect(key1 = sharedState.value.userRooms, block = {
+        mainViewModel.userRoomsChanged(sharedState.value.userRooms)
+    })
 
     mainViewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
-            is MainSideEffect.Toast -> {
-                Toast.makeText(context, sideEffect.text, Toast.LENGTH_SHORT).show()
+            MainSideEffect.NavigateToManageRoomsScreen -> {
+                navController.navigate(NavigationRoute.ROUTE_MANAGE_ROOMS)
+            }
+            is MainSideEffect.NavigateToRoomUpdateScreen -> {
+                navController.navigate(
+                    navigateString(
+                        NavigationRoute.ROUTE_ROOM_UPDATE,
+                        Pair(NavigationArguments.ARGUMENT_ROOM_ID, sideEffect.roomId)
+                    )
+                )
             }
         }
     }
@@ -45,12 +59,6 @@ fun MainScreen(
         scaffoldState = scaffoldState,
     ) {
         Column(modifier = Modifier.padding(it)) {
-            Text("Sum = ${state.value.sum}")
-            Button(
-                onClick = mainViewModel::addButtonClicked
-            ) {
-                Text("Add")
-            }
             Button(onClick = {
                 navController.navigate(
                     NavigationRoute.ROUTE_ADD_ROOM
@@ -65,16 +73,25 @@ fun MainScreen(
             }
             Button(onClick = {
                 navController.navigate(
-                    navigateString(
-                        NavigationRoute.ROUTE_ARG,
-                        Pair(
-                            NavigationArguments.ARGUMENT_COUNT,
-                            state.value.sum
-                        )
-                    )
+                    NavigationRoute.ROUTE_GOOGLE_MAPS
                 )
             }) {
-                Text(text = "Go to ArgScreen")
+                Text(text = "Go to Google Maps")
+            }
+            if (state.value.isManageRoomButtonVisible) {
+                Button(onClick = {
+                    mainViewModel.manageRoomsButtonClicked()
+                }) {
+                    Text(text = stringResource(id = R.string.manage_rooms))
+                }
+            }
+        }
+        if (sharedState.value.isLoading) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
             }
         }
     }
@@ -84,6 +101,7 @@ fun MainScreen(
 @Composable
 fun PreviewMainScreen() {
     MainScreen(
-        navController = NavController(LocalContext.current)
+        navController = NavController(LocalContext.current),
+        sharedRoomsViewModel = hiltViewModel()
     )
 }
