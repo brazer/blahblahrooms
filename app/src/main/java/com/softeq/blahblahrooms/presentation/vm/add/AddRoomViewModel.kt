@@ -30,15 +30,15 @@ class AddRoomViewModel @Inject constructor(
     private var room = Room(-1, 0.0f, LatLng(0.0, 0.0), "",
         Period.SHORT, "", "")
 
-    override val container = container<AddRoomState, AddRoomSideEffect>(AddRoomState.OnRoomChanged(room))
+    override val container = container<AddRoomState, AddRoomSideEffect>(AddRoomState(room))
 
     fun addRoom() = intent {
         val invalidMessage = room.isValid(getContext().resources)
         if (invalidMessage == null) {
-            reduce { AddRoomState.AddingOfRoom }
+            reduce { AddRoomState(room, true) }
             addRoomUseCase.add(room).catch {
                 val message = getContext().getString(R.string.room_not_added)
-                intent { reduce { AddRoomState.OnRoomChanged(room) } }
+                intent { reduce { AddRoomState(room) } }
                 postSideEffect(AddRoomSideEffect.Toast(message, getContext()))
             }.collect {
                 val message = getContext().getString(R.string.room_added)
@@ -50,44 +50,46 @@ class AddRoomViewModel @Inject constructor(
 
     private fun getContext() = getApplication<App>()
 
+    fun onBackButtonClicked() = intent {
+        postSideEffect(AddRoomSideEffect.NavigatedBack)
+    }
+
     override fun onPriceChanged(price: Float) {
         room = room.copy(price = price)
-        intent { reduce { AddRoomState.OnRoomChanged(room) } }
+        intent { reduce { AddRoomState(room) } }
     }
 
     override fun onLocationChanged(location: LatLng) {
         room = room.copy(location = location)
-        intent { reduce { AddRoomState.OnRoomChanged(room) } }
+        intent { reduce { AddRoomState(room) } }
     }
 
     override fun onAddressChanged(address: String) {
         room = room.copy(address = address)
-        intent { reduce { AddRoomState.OnRoomChanged(room) } }
+        intent { reduce { AddRoomState(room) } }
     }
 
     override fun onDescriptionChanged(description: String) {
         room = room.copy(description = description)
-        intent { reduce { AddRoomState.OnRoomChanged(room) } }
+        intent { reduce { AddRoomState(room) } }
     }
 
     override fun onPeriodChanged(period: Period) {
         room = room.copy(period = period)
-        intent { reduce { AddRoomState.OnRoomChanged(room) } }
+        intent { reduce { AddRoomState(room) } }
     }
 
     override fun onEmailChanged(email: String) {
         room = room.copy(email = email)
-        intent { reduce { AddRoomState.OnRoomChanged(room) } }
+        intent { reduce { AddRoomState(room) } }
     }
 
 }
 
-sealed class AddRoomState {
-    data class OnRoomChanged(val room: Room): AddRoomState()
-    object AddingOfRoom: AddRoomState()
-}
+data class AddRoomState(val room: Room, val progress: Boolean = false)
 
 sealed class AddRoomSideEffect {
     object RoomIsAdded: AddRoomSideEffect()
+    object NavigatedBack: AddRoomSideEffect()
     data class Toast(val message: String, val context: Context): AddRoomSideEffect()
 }
