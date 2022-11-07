@@ -4,10 +4,10 @@ import com.google.android.gms.maps.model.LatLng
 import com.softeq.blahblahrooms.domain.models.Period
 
 interface EditRoomInterface {
-    fun onPriceChanged(price: Float)
-    fun onLocationChanged(location: LatLng)
-    fun onAddressChanged(address: String)
-    fun onDescriptionChanged(description: String)
-    fun onPeriodChanged(period: Period)
-    fun onEmailChanged(email: String)
+    fun roomPriceChanged(price: Float)
+    fun roomLocationChanged(location: LatLng)
+    fun roomAddressChanged(address: String)
+    fun roomDescriptionChanged(description: String)
+    fun roomPeriodChanged(period: Period)
+    fun roomEmailChanged(email: String)
 }

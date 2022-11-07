@@ -54,12 +54,12 @@ private fun RoomEditView(room: Room, viewModel: AddRoomViewModel) {
         }
         EditRoom(
             room = room,
-            onPriceChanged = viewModel::onPriceChanged,
-            onLocationChanged = viewModel::onLocationChanged,
-            onAddressChanged = viewModel::onAddressChanged,
-            onDescriptionChanged = viewModel::onDescriptionChanged,
-            onPeriodChanged = viewModel::onPeriodChanged,
-            onEmailChanged = viewModel::onEmailChanged
+            onPriceChanged = viewModel::roomPriceChanged,
+            onLocationChanged = viewModel::roomLocationChanged,
+            onAddressChanged = viewModel::roomAddressChanged,
+            onDescriptionChanged = viewModel::roomDescriptionChanged,
+            onPeriodChanged = viewModel::roomPeriodChanged,
+            onEmailChanged = viewModel::roomEmailChanged
         )
         Button(onClick = viewModel::addRoom) {
             Text(text = stringResource(id = R.string.add))

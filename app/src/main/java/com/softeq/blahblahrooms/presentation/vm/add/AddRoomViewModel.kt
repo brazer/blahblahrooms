@@ -27,7 +27,7 @@ class AddRoomViewModel @Inject constructor(
 ) : ContainerHost<AddRoomState, AddRoomSideEffect>, AndroidViewModel(application),
     EditRoomInterface {
 
-    private var room = Room(-1, 0.0f, LatLng(0.0, 0.0), "",
+    private var room = Room(1,"-1", 0.0f, LatLng(0.0, 0.0), "",
         Period.SHORT, "", "")
 
     override val container = container<AddRoomState, AddRoomSideEffect>(AddRoomState(room))
@@ -54,32 +54,32 @@ class AddRoomViewModel @Inject constructor(
         postSideEffect(AddRoomSideEffect.NavigatedBack)
     }
 
-    override fun onPriceChanged(price: Float) {
+    override fun roomPriceChanged(price: Float) {
         room = room.copy(price = price)
         intent { reduce { AddRoomState(room) } }
     }
 
-    override fun onLocationChanged(location: LatLng) {
+    override fun roomLocationChanged(location: LatLng) {
         room = room.copy(location = location)
         intent { reduce { AddRoomState(room) } }
     }
 
-    override fun onAddressChanged(address: String) {
+    override fun roomAddressChanged(address: String) {
         room = room.copy(address = address)
         intent { reduce { AddRoomState(room) } }
     }
 
-    override fun onDescriptionChanged(description: String) {
+    override fun roomDescriptionChanged(description: String) {
         room = room.copy(description = description)
         intent { reduce { AddRoomState(room) } }
     }
 
-    override fun onPeriodChanged(period: Period) {
+    override fun roomPeriodChanged(period: Period) {
         room = room.copy(period = period)
         intent { reduce { AddRoomState(room) } }
     }
 
-    override fun onEmailChanged(email: String) {
+    override fun roomEmailChanged(email: String) {
         room = room.copy(email = email)
         intent { reduce { AddRoomState(room) } }
     }

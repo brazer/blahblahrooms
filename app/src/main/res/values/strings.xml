@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name">BlaBlaRooms</string>
-    <string name="rooms_flats">Rooms/Flats</string>
+    <string name="long_term">Long-term</string>
+    <string name="short_term">Short-term</string>
     <string name="back">Back</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
     <string name="add_room">Add a room/flat</string>
 
     <!--    Edit Room-->
@@ -15,6 +18,11 @@
     <string name="period_short">Short</string>
     <string name="period_long">Long</string>
     <string name="contacts">Contacts</string>
+
+<!--    Main Screen-->
+    <string name="rooms_flats">Rooms/Flats</string>
+    <string name="manage_rooms">Manage rooms</string>
+
 
     <string name="room_added">The room/flat is added</string>
     <string name="room_not_added">The room/flat is not added</string>
