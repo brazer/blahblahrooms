@@ -71,13 +71,6 @@ fun MainScreen(
             }) {
                 Text(stringResource(id = R.string.rooms_flats))
             }
-            Button(onClick = {
-                navController.navigate(
-                    NavigationRoute.ROUTE_GOOGLE_MAPS
-                )
-            }) {
-                Text(text = "Go to Google Maps")
-            }
             if (state.value.isManageRoomButtonVisible) {
                 Button(onClick = {
                     mainViewModel.manageRoomsButtonClicked()
