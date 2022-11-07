@@ -8,9 +8,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.softeq.blahblahrooms.presentation.screens.add.AddRoomScreen
-import com.softeq.blahblahrooms.presentation.screens.arg.ArgScreen
 import com.softeq.blahblahrooms.presentation.screens.main.MainScreen
 import com.softeq.blahblahrooms.presentation.screens.managerooms.ManageRoomsScreen
+import com.softeq.blahblahrooms.presentation.screens.roomdetails.RoomDetailsScreen
 import com.softeq.blahblahrooms.presentation.screens.rooms.RoomsScreen
 import com.softeq.blahblahrooms.presentation.screens.roomupdate.RoomUpdateScreen
 import com.softeq.blahblahrooms.presentation.vm.shared.SharedRoomsViewModel
@@ -33,24 +33,28 @@ fun Navigation() {
             RoomsScreen(navController = navController)
         }
 
-        composable(NavigationRoute.ROUTE_ADD_ROOM) {
-            AddRoomScreen(navController = navController)
-        }
-
         composable(
-            destinationString(NavigationRoute.ROUTE_ARG, NavigationArguments.ARGUMENT_COUNT),
+            destinationString(
+                NavigationRoute.ROUTE_ROOM_DETAILS,
+                NavigationArguments.ARGUMENT_ROOM_ID
+            ),
             arguments = listOf(
-                navArgument(NavigationArguments.ARGUMENT_COUNT) {
+                navArgument(NavigationArguments.ARGUMENT_ROOM_ID) {
                     nullable = false
                     defaultValue = 0
                     type = NavType.IntType
                 }
             )
         ) {
-            ArgScreen(
+            RoomDetailsScreen(
                 navController = navController,
-                count = it.arguments?.getInt(NavigationArguments.ARGUMENT_COUNT)
+                sharedRoomsViewModel = sharedRoomsViewModel,
+                roomId = it.arguments?.getInt(NavigationArguments.ARGUMENT_ROOM_ID) ?: 0
             )
+        }
+
+        composable(NavigationRoute.ROUTE_ADD_ROOM) {
+            AddRoomScreen(navController = navController)
         }
 
         composable(NavigationRoute.ROUTE_MANAGE_ROOMS) {
