@@ -16,19 +16,16 @@ class RoomsViewModel @Inject constructor(
     private val roomsUseCase: FetchRoomsUseCase
 ) : ContainerHost<RoomsState, RoomsSideEffect>, ViewModel() {
 
-    override val container = container<RoomsState, RoomsSideEffect>(RoomsState.Loading)
+    override val container = container<RoomsState, RoomsSideEffect>(RoomsState(emptyList(), true))
 
     fun loadData() = intent {
         roomsUseCase.fetch().collectLatest {
-            reduce { RoomsState.Loaded(it) }
+            reduce { RoomsState(it) }
         }
     }
 
 }
 
-sealed class RoomsState {
-    object Loading: RoomsState()
-    data class Loaded(val rooms: List<Room>): RoomsState()
-}
+data class RoomsState(val rooms: List<Room>, val progress: Boolean = false)
 
 class RoomsSideEffect

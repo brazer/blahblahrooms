@@ -17,6 +17,7 @@ import androidx.navigation.NavController
 import com.softeq.blahblahrooms.R
 import com.softeq.blahblahrooms.domain.models.Room
 import com.softeq.blahblahrooms.presentation.components.EditRoom
+import com.softeq.blahblahrooms.presentation.components.ProgressView
 import com.softeq.blahblahrooms.presentation.vm.add.AddRoomSideEffect
 import com.softeq.blahblahrooms.presentation.vm.add.AddRoomViewModel
 import org.orbitmvi.orbit.compose.collectAsState
@@ -28,12 +29,7 @@ fun AddRoomScreen(navController: NavController) {
     val state = viewModel.collectAsState()
     RoomEditView(room = state.value.room, viewModel = viewModel)
     if (state.value.progress) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            CircularProgressIndicator()
-        }
+        ProgressView()
     }
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
