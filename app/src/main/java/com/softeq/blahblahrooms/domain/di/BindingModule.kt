@@ -6,10 +6,10 @@ import com.softeq.blahblahrooms.domain.usecases.FetchRoomsUseCase
 import com.softeq.blahblahrooms.domain.usecases.FetchRoomsUseCaseImpl
 import dagger.Binds
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.components.SingletonComponent
 
 @dagger.Module
-@InstallIn(ViewModelComponent::class)
+@InstallIn(SingletonComponent::class)
 abstract class BindingModule {
 
     @Binds
@@ -17,5 +17,4 @@ abstract class BindingModule {
 
     @Binds
     abstract fun bindAddRoomUseCase(useCase: AddRoomUseCaseImpl): AddRoomUseCase
-
 }
