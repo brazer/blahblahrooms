@@ -19,7 +19,7 @@ import com.softeq.blahblahrooms.R
 import com.softeq.blahblahrooms.data.providers.CurrentLocationProvider
 import com.softeq.blahblahrooms.data.providers.getMarkerTitle
 import com.softeq.blahblahrooms.data.providers.getSnippet
-import com.softeq.blahblahrooms.presentation.vm.rooms.RoomsState
+import com.softeq.blahblahrooms.presentation.components.ProgressView
 import com.softeq.blahblahrooms.presentation.vm.rooms.RoomsViewModel
 import org.orbitmvi.orbit.compose.collectAsState
 
@@ -39,23 +39,20 @@ fun RoomsScreen(navController: NavController) {
         }) {
             Text(text = stringResource(id = R.string.back))
         }
-        when (state.value) {
-            RoomsState.Loading -> {
-                viewModel.loadData()
-                CircularProgressIndicator()
-            }
-            is RoomsState.Loaded -> {
-                GoogleMap(
-                    modifier = Modifier.fillMaxSize(),
-                    cameraPositionState = cameraPositionState
-                ) {
-                    (state.value as RoomsState.Loaded).rooms.forEach {
-                        Marker(
-                            state = MarkerState(position = it.location),
-                            title = it.getMarkerTitle(),
-                            snippet = it.getSnippet()
-                        )
-                    }
+        if (state.value.progress) {
+            viewModel.loadData()
+            ProgressView()
+        } else {
+            GoogleMap(
+                modifier = Modifier.fillMaxSize(),
+                cameraPositionState = cameraPositionState
+            ) {
+                state.value.rooms.forEach {
+                    Marker(
+                        state = MarkerState(position = it.location),
+                        title = it.getMarkerTitle(),
+                        snippet = it.getSnippet()
+                    )
                 }
             }
         }
