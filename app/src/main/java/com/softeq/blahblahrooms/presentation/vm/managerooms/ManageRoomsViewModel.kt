@@ -25,6 +25,11 @@ class ManageRoomsViewModel @Inject constructor() :
     fun roomClicked(roomId: Int) = intent {
         postSideEffect(ManageRoomsSideEffect.NavigateToUpdateRoomScreen(roomId))
     }
+
+    fun onBackButtonClicked() = intent {
+        postSideEffect(ManageRoomsSideEffect.BackToPreviousScreen)
+    }
+
 }
 
 data class ManageRoomsState(
@@ -33,4 +38,5 @@ data class ManageRoomsState(
 
 sealed class ManageRoomsSideEffect {
     data class NavigateToUpdateRoomScreen(val roomId: Int) : ManageRoomsSideEffect()
+    object BackToPreviousScreen: ManageRoomsSideEffect()
 }

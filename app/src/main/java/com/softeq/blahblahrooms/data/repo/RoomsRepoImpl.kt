@@ -19,11 +19,11 @@ class RoomsRepoImpl @Inject constructor() : RoomsRepo {
         //todo: get from api
         delay(3000)
         emit(listOf(
-            Room(1, "1", 100f, LatLng(53.922818, 27.616076), "Address here", Period.LONG, "Description", "pupkin@tut.by"),
-            Room(2, "2", 120f, LatLng(53.888756, 27.504955), "Address here", Period.SHORT, "Description", "pup@tut.by"),
-            Room(3, "3", 99.99f, LatLng(53.907490, 27.598443), "Address here", Period.SHORT, "Description", "pup@tut.by"),
-            Room(4,"4", 1f, LatLng(53.860541, 27.623315), "Address here", Period.SHORT, "Description", "pup@tut.by"),
-            Room(5,"5", 12000f, LatLng(53.923807, 27.469993), "Address here", Period.SHORT, "Description", "pup@tut.by")
+            Room(1, "1", 100f, LatLng(53.922818, 27.616076), "Long long long long long address here", Period.LONG, "Description", "pupkin@tut.by"),
+            Room(2, "2", 120f, LatLng(53.888756, 27.504955), "Long long long long long address here", Period.SHORT, "Description", "pup@tut.by"),
+            Room(3, "3", 99.99f, LatLng(53.907490, 27.598443), "Long long long long long address here", Period.SHORT, "Description", "pup@tut.by"),
+            Room(4,"4", 1f, LatLng(53.860541, 27.623315), "Long long long long long address here", Period.SHORT, "Description", "pup@tut.by"),
+            Room(5,"5", 12000f, LatLng(53.923807, 27.469993), "Long long long long long address here", Period.SHORT, "Description", "pup@tut.by")
         ))
     }
 

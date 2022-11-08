@@ -8,7 +8,7 @@ import java.text.NumberFormat
 import java.util.*
 
 fun Room.getMarkerTitle(): String {
-    return NumberFormat.getCurrencyInstance(Locale.US).format(price)
+    return getPriceUSFormat()
 }
 
 fun Room.getPriceUSFormat(): String {
