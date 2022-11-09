@@ -1,18 +1,17 @@
 package com.softeq.blahblahrooms.presentation.vm.add
 
 import android.app.Application
-import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import com.google.android.gms.maps.model.LatLng
 import com.softeq.blahblahrooms.App
-import com.softeq.blahblahrooms.R
 import com.softeq.blahblahrooms.data.providers.isValid
 import com.softeq.blahblahrooms.domain.models.Period
 import com.softeq.blahblahrooms.domain.models.Room
 import com.softeq.blahblahrooms.domain.usecases.AddRoomUseCase
+import com.softeq.blahblahrooms.domain.usecases.GetUserIdUseCase
 import com.softeq.blahblahrooms.presentation.EditRoomInterface
+import com.softeq.blahblahrooms.presentation.vm.useCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.catch
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
@@ -23,29 +22,39 @@ import javax.inject.Inject
 @HiltViewModel
 class AddRoomViewModel @Inject constructor(
     private val addRoomUseCase: AddRoomUseCase,
+    private val getUserIdUseCase: GetUserIdUseCase,
     application: Application
 ) : ContainerHost<AddRoomState, AddRoomSideEffect>, AndroidViewModel(application),
     EditRoomInterface {
 
-    private var room = Room(1,"-1", 0.0f, LatLng(0.0, 0.0), "",
-        Period.SHORT, "", "")
+    override val container =
+        container<AddRoomState, AddRoomSideEffect>(AddRoomState(room = initialRoom))
 
-    override val container = container<AddRoomState, AddRoomSideEffect>(AddRoomState(room))
+    init {
+        initUserId()
+    }
+
+    private fun initUserId() = intent {
+        useCase {
+            val userId = getUserIdUseCase.invoke()
+            userId?.let {
+                reduce { state.copy(room = state.room.copy(userId = userId)) }
+            }
+        }
+    }
 
     fun addRoom() = intent {
-        val invalidMessage = room.isValid(getContext().resources)
-        if (invalidMessage == null) {
-            reduce { AddRoomState(room, true) }
-            addRoomUseCase.add(room).catch {
-                val message = getContext().getString(R.string.room_not_added)
-                intent { reduce { AddRoomState(room) } }
-                postSideEffect(AddRoomSideEffect.Toast(message, getContext()))
-            }.collect {
-                val message = getContext().getString(R.string.room_added)
-                postSideEffect(AddRoomSideEffect.Toast(message, getContext()))
-                postSideEffect(AddRoomSideEffect.RoomIsAdded)
+        useCase {
+            reduce { state.copy(isLoading = true) }
+            val errorMessage = state.room.isValid(getContext().resources)
+            if (errorMessage != null) {
+                postSideEffect(AddRoomSideEffect.ShowError(errorMessage))
+            } else {
+                addRoomUseCase.invoke(state.room)
             }
-        } else postSideEffect(AddRoomSideEffect.Toast(invalidMessage, getContext()))
+            reduce { state.copy(isLoading = false) }
+            postSideEffect(AddRoomSideEffect.NavigatedBack)
+        }
     }
 
     private fun getContext() = getApplication<App>()
@@ -54,42 +63,51 @@ class AddRoomViewModel @Inject constructor(
         postSideEffect(AddRoomSideEffect.NavigatedBack)
     }
 
-    override fun roomPriceChanged(price: Float) {
-        room = room.copy(price = price)
-        intent { reduce { AddRoomState(room) } }
+    override fun roomPriceChanged(price: Float) = intent {
+        reduce { state.copy(room = state.room.copy(price = price)) }
     }
 
-    override fun roomLocationChanged(location: LatLng) {
-        room = room.copy(location = location)
-        intent { reduce { AddRoomState(room) } }
+
+    override fun roomLocationChanged(location: LatLng) = intent {
+        reduce { state.copy(room = state.room.copy(location = location)) }
     }
 
-    override fun roomAddressChanged(address: String) {
-        room = room.copy(address = address)
-        intent { reduce { AddRoomState(room) } }
+    override fun roomAddressChanged(address: String) = intent {
+        reduce { state.copy(room = state.room.copy(address = address)) }
     }
 
-    override fun roomDescriptionChanged(description: String) {
-        room = room.copy(description = description)
-        intent { reduce { AddRoomState(room) } }
+    override fun roomDescriptionChanged(description: String) = intent {
+        reduce { state.copy(room = state.room.copy(description = description)) }
     }
 
-    override fun roomPeriodChanged(period: Period) {
-        room = room.copy(period = period)
-        intent { reduce { AddRoomState(room) } }
+    override fun roomPeriodChanged(period: Period) = intent {
+        reduce { state.copy(room = state.room.copy(period = period)) }
     }
 
-    override fun roomEmailChanged(email: String) {
-        room = room.copy(email = email)
-        intent { reduce { AddRoomState(room) } }
+    override fun roomEmailChanged(email: String) = intent {
+        reduce { state.copy(room = state.room.copy(email = email)) }
     }
 
+    companion object {
+        val initialRoom = Room(
+            id = 0,
+            userId = "",
+            price = 0f,
+            location = LatLng(0.0, 0.0),
+            address = "",
+            period = Period.SHORT,
+            description = "",
+            email = ""
+        )
+    }
 }
 
-data class AddRoomState(val room: Room, val progress: Boolean = false)
+data class AddRoomState(
+    val room: Room,
+    val isLoading: Boolean = false
+)
 
 sealed class AddRoomSideEffect {
-    object RoomIsAdded: AddRoomSideEffect()
-    object NavigatedBack: AddRoomSideEffect()
-    data class Toast(val message: String, val context: Context): AddRoomSideEffect()
+    object NavigatedBack : AddRoomSideEffect()
+    data class ShowError(val errorMessage: String) : AddRoomSideEffect()
 }

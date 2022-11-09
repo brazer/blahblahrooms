@@ -1,5 +1,6 @@
 package com.softeq.blahblahrooms.domain.di
 
+import com.softeq.blahblahrooms.domain.repositories.RoomsLocalRepo
 import com.softeq.blahblahrooms.domain.repositories.RoomsRepo
 import com.softeq.blahblahrooms.domain.repositories.UserIdRepo
 import com.softeq.blahblahrooms.domain.usecases.*
@@ -28,8 +29,50 @@ object UseCasesModule {
 
     @Provides
     fun provideUpdateRoomUseCase(
-        roomsRepo: RoomsRepo
+        roomsRepo: RoomsRepo,
+        roomsLocalRepo: RoomsLocalRepo
     ): UpdateRoomUseCase {
-        return UpdateRoomUseCaseImpl(roomsRepo)
+        return UpdateRoomUseCaseImpl(roomsRepo, roomsLocalRepo)
+    }
+
+    @Provides
+    fun provideLoadRoomsUseCase(
+        roomsRepo: RoomsRepo,
+        roomsLocalRepo: RoomsLocalRepo
+    ): LoadRoomsUseCase {
+        return LoadRoomsUseCaseImpl(roomsRepo, roomsLocalRepo)
+    }
+
+    @Provides
+    fun provideGetRoomsUseCase(
+        roomsLocalRepo: RoomsLocalRepo
+    ): GetRoomsUseCase {
+        return GetRoomsUseCaseImpl(roomsLocalRepo)
+    }
+
+    @Provides
+    fun provideAddRoomUseCase(
+        roomsRepo: RoomsRepo,
+        roomsLocalRepo: RoomsLocalRepo
+    ): AddRoomUseCase {
+        return AddRoomUseCaseImpl(roomsRepo, roomsLocalRepo)
+    }
+
+    @Provides
+    fun provideGetRoomsByUserIdUseCase(
+        roomsLocalRepo: RoomsLocalRepo,
+        userIdRepo: UserIdRepo
+    ): GetRoomsByUserIdUseCase {
+        return GetRoomsByUserIdUseCaseImpl(
+            roomsLocalRepo,
+            userIdRepo
+        )
+    }
+
+    @Provides
+    fun provide(roomsLocalRepo: RoomsLocalRepo): GetRoomByIdUseCase {
+        return GetRoomByIdUseCaseImpl(
+            roomsLocalRepo
+        )
     }
 }

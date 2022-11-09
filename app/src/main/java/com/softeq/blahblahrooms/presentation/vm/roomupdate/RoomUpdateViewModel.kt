@@ -7,8 +7,10 @@ import com.softeq.blahblahrooms.App
 import com.softeq.blahblahrooms.data.providers.isValid
 import com.softeq.blahblahrooms.domain.models.Period
 import com.softeq.blahblahrooms.domain.models.Room
+import com.softeq.blahblahrooms.domain.usecases.GetRoomByIdUseCase
 import com.softeq.blahblahrooms.domain.usecases.UpdateRoomUseCase
 import com.softeq.blahblahrooms.presentation.EditRoomInterface
+import com.softeq.blahblahrooms.presentation.vm.useCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -20,17 +22,18 @@ import javax.inject.Inject
 @HiltViewModel
 class RoomUpdateViewModel @Inject constructor(
     private val updateRoomUseCase: UpdateRoomUseCase,
+    private val getRoomByIdUseCase: GetRoomByIdUseCase,
     application: Application
 ) : ContainerHost<RoomUpdateState, RoomUpdateSideEffect>, AndroidViewModel(application),
     EditRoomInterface {
 
     override val container = container<RoomUpdateState, RoomUpdateSideEffect>(RoomUpdateState())
 
-    fun setRoom(rooms: List<Room>, roomId: Int) = intent {
-        reduce {
-            state.copy(room = rooms.find { room ->
-                room.id == roomId
-            })
+    fun setRoom(roomId: Int) = intent {
+        useCase {
+            getRoomByIdUseCase.invoke(roomId).collect {
+                reduce { state.copy(room = it) }
+            }
         }
     }
 
@@ -71,18 +74,22 @@ class RoomUpdateViewModel @Inject constructor(
     }
 
     fun saveButtonClicked() = intent {
-
-        state.room?.let {
-            reduce { state.copy(isLoading = true) }
-            val errorMessage = it.isValid(getContext().resources)
-            if (errorMessage != null) {
-                postSideEffect(RoomUpdateSideEffect.ShowError(errorMessage))
-            } else {
-                updateRoomUseCase.invoke(room = it)
+        useCase {
+            state.room?.let {
+                reduce { state.copy(isLoading = true) }
+                val errorMessage = it.isValid(getContext().resources)
+                if (errorMessage != null) {
+                    postSideEffect(RoomUpdateSideEffect.ShowError(errorMessage))
+                } else {
+                    updateRoomUseCase.invoke(room = it)
+                }
+                reduce { state.copy(isLoading = false) }
             }
-            reduce { state.copy(isLoading = true) }
+            postSideEffect(RoomUpdateSideEffect.BackToPreviousScreen)
+        }.onFailure {
+            postSideEffect(RoomUpdateSideEffect.ShowError())
+            reduce { state.copy(isLoading = false) }
         }
-        postSideEffect(RoomUpdateSideEffect.BackToPreviousScreen)
     }
 
     private fun getContext() = getApplication<App>()
@@ -90,8 +97,6 @@ class RoomUpdateViewModel @Inject constructor(
     fun cancelButtonClicked() = intent {
         postSideEffect(RoomUpdateSideEffect.BackToPreviousScreen)
     }
-
-
 }
 
 data class RoomUpdateState(
@@ -101,5 +106,5 @@ data class RoomUpdateState(
 
 sealed class RoomUpdateSideEffect {
     object BackToPreviousScreen : RoomUpdateSideEffect()
-    data class ShowError(val errorMessage: String) : RoomUpdateSideEffect()
+    data class ShowError(val errorMessage: String? = null) : RoomUpdateSideEffect()
 }

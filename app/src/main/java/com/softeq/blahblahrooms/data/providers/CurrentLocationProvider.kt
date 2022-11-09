@@ -27,5 +27,4 @@ object CurrentLocationProvider {
             }
         } ?: callback(null)
     }
-
 }
