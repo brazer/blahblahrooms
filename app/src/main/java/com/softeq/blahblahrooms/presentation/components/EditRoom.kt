@@ -4,10 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Surface
-import androidx.compose.material.Switch
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -17,6 +14,7 @@ import com.softeq.blahblahrooms.R
 import com.softeq.blahblahrooms.domain.models.Period
 import com.softeq.blahblahrooms.domain.models.Room
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditRoom(
     room: Room,

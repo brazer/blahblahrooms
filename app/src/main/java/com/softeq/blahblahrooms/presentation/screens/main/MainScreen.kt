@@ -1,10 +1,10 @@
 package com.softeq.blahblahrooms.presentation.screens.main
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -15,6 +15,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.softeq.blahblahrooms.R
+import com.softeq.blahblahrooms.presentation.components.TopBlahBlahRoomsBar
+import com.softeq.blahblahrooms.presentation.components.ProgressView
 import com.softeq.blahblahrooms.presentation.route.NavigationArguments
 import com.softeq.blahblahrooms.presentation.route.NavigationRoute
 import com.softeq.blahblahrooms.presentation.route.navigateString
@@ -24,6 +26,7 @@ import com.softeq.blahblahrooms.presentation.vm.shared.SharedRoomsViewModel
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     navController: NavController,
@@ -32,7 +35,6 @@ fun MainScreen(
 
     val mainViewModel: MainViewModel = hiltViewModel()
     val sharedState = sharedRoomsViewModel.collectAsState()
-    val scaffoldState = rememberScaffoldState()
     val state = mainViewModel.collectAsState()
 
     LaunchedEffect(key1 = sharedState.value.userRooms, block = {
@@ -56,9 +58,13 @@ fun MainScreen(
     }
 
     Scaffold(
-        scaffoldState = scaffoldState,
+        topBar = { TopBlahBlahRoomsBar(title = stringResource(id = R.string.home)) }
     ) {
-        Column(modifier = Modifier.padding(it)) {
+        Column(
+            modifier = Modifier.padding(it).fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Button(onClick = {
                 navController.navigate(
                     NavigationRoute.ROUTE_ADD_ROOM
@@ -80,12 +86,7 @@ fun MainScreen(
             }
         }
         if (sharedState.value.isLoading) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
+            ProgressView()
         }
     }
 }
