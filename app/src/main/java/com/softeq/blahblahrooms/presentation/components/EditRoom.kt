@@ -11,7 +11,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.google.android.gms.maps.model.LatLng
 import com.softeq.blahblahrooms.R
-import com.softeq.blahblahrooms.domain.models.Period
+import com.softeq.blahblahrooms.data.model.Period
 import com.softeq.blahblahrooms.domain.models.Room
 
 @OptIn(ExperimentalMaterial3Api::class)

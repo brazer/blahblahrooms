@@ -1,6 +1,5 @@
 package com.softeq.blahblahrooms.data.model
 
-import com.softeq.blahblahrooms.data.DataConfig
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -9,7 +8,7 @@ data class PlacementAPI(
     @SerialName("id")
     val id: Int = 0,
     @SerialName("type")
-    val type: String = DataConfig.PLACEMENT_TYPE_FLAT,
+    val type: PlacementType = PlacementType.FLAT,
     @SerialName("description")
     val description: String = "",
     @SerialName("contacts")
@@ -26,7 +25,7 @@ data class PlacementAPI(
     @SerialName("active")
     val active: Boolean = true,
     @SerialName("period")
-    val period: String = DataConfig.PERIOD_TYPE_SHORT,
+    val period: Period = Period.SHORT,
     @SerialName("userId")
     val userId: String = ""
 )

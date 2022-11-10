@@ -1,15 +1,15 @@
 package com.softeq.blahblahrooms.data.mappers
 
 import com.google.android.gms.maps.model.LatLng
-import com.softeq.blahblahrooms.data.DataConfig
+import com.softeq.blahblahrooms.data.model.Period
 import com.softeq.blahblahrooms.data.model.PlacementAPI
-import com.softeq.blahblahrooms.domain.models.Period
+import com.softeq.blahblahrooms.data.model.PlacementType
 import com.softeq.blahblahrooms.domain.models.Room
 
 fun Room.asPlacementAPI(): PlacementAPI {
     return PlacementAPI(
         id = this.id,
-        type = DataConfig.PLACEMENT_TYPE_FLAT,
+        type = PlacementType.FLAT,
         description = this.description,
         contacts = this.email,
         longitude = this.location.longitude,
@@ -18,7 +18,7 @@ fun Room.asPlacementAPI(): PlacementAPI {
         city = "",
         price = this.price.toDouble(),
         active = true,
-        period = if (this.period == Period.SHORT) DataConfig.PERIOD_TYPE_SHORT else DataConfig.PERIOD_TYPE_LONG,
+        period = if (this.period == Period.SHORT) Period.SHORT else Period.LONG,
         userId = this.userId
     )
 }
@@ -30,7 +30,7 @@ fun PlacementAPI.asRoom(): Room {
         price = this.price.toFloat(),
         location = LatLng(this.latitude, this.longitude),
         address = this.address,
-        period = if (this.period == DataConfig.PERIOD_TYPE_SHORT) Period.SHORT else Period.LONG,
+        period = this.period,
         description = this.description,
         email = this.contacts
     )
