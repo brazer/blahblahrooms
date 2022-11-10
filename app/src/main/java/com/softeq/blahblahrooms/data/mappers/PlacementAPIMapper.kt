@@ -1,7 +1,6 @@
 package com.softeq.blahblahrooms.data.mappers
 
 import com.google.android.gms.maps.model.LatLng
-import com.softeq.blahblahrooms.data.model.Period
 import com.softeq.blahblahrooms.data.model.PlacementAPI
 import com.softeq.blahblahrooms.data.model.PlacementType
 import com.softeq.blahblahrooms.domain.models.Room
@@ -18,7 +17,7 @@ fun Room.asPlacementAPI(): PlacementAPI {
         city = "",
         price = this.price.toDouble(),
         active = true,
-        period = if (this.period == Period.SHORT) Period.SHORT else Period.LONG,
+        period = this.period,
         userId = this.userId
     )
 }
