@@ -1,8 +1,6 @@
 package com.softeq.blahblahrooms.data.model
 
-import com.google.android.gms.maps.model.LatLng
-import com.softeq.blahblahrooms.domain.models.Period
-import com.softeq.blahblahrooms.domain.models.Room
+import com.softeq.blahblahrooms.data.DataConfig
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -11,7 +9,7 @@ data class PlacementAPI(
     @SerialName("id")
     val id: Int = 0,
     @SerialName("type")
-    val type: String = PlacementType.Flat.name,
+    val type: String = DataConfig.PLACEMENT_TYPE_FLAT,
     @SerialName("description")
     val description: String = "",
     @SerialName("contacts")
@@ -28,37 +26,7 @@ data class PlacementAPI(
     @SerialName("active")
     val active: Boolean = true,
     @SerialName("period")
-    val period: String = PeriodType.Short.name,
+    val period: String = DataConfig.PERIOD_TYPE_SHORT,
     @SerialName("userId")
     val userId: String = ""
 )
-
-fun Room.asPlacementAPI(): PlacementAPI {
-    return PlacementAPI(
-        id = this.id,
-        type = PlacementType.Flat.name,
-        description = this.description,
-        contacts = this.email,
-        longitude = this.location.longitude,
-        latitude = this.location.latitude,
-        address = this.address,
-        city = "",
-        price = this.price.toDouble(),
-        active = true,
-        period = if (this.period == Period.SHORT) PeriodType.Short.name else PeriodType.Long.name,
-        userId = this.userId
-    )
-}
-
-fun PlacementAPI.asRoom(): Room {
-    return Room(
-        id = this.id,
-        userId = this.userId,
-        price = this.price.toFloat(),
-        location = LatLng(this.latitude, this.longitude),
-        address = this.address,
-        period = if (this.period == PeriodType.Short.name) Period.SHORT else Period.LONG,
-        description = this.description,
-        email = this.contacts
-    )
-}

@@ -3,9 +3,6 @@ package com.softeq.blahblahrooms.data.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.android.gms.maps.model.LatLng
-import com.softeq.blahblahrooms.domain.models.Period
-import com.softeq.blahblahrooms.domain.models.Room
 
 @Entity(tableName = "placements")
 data class PlacementDTO(
@@ -33,32 +30,3 @@ data class PlacementDTO(
     @ColumnInfo(name = "userId")
     val userId: String = ""
 )
-
-fun PlacementDTO.asRoom(): Room {
-    return Room(
-        id = this.id,
-        userId = this.userId,
-        price = this.price.toFloat(),
-        location = LatLng(this.coordinates, 0.0),
-        address = this.address,
-        period = if (this.period == 0) Period.SHORT else Period.LONG,
-        description = this.description,
-        email = this.contacts
-    )
-}
-
-fun Room.asPlacementDTO(): PlacementDTO {
-    return PlacementDTO(
-        id = this.id,
-        type = 0,
-        description = this.description,
-        contacts = this.email,
-        coordinates = this.location.latitude,
-        address = this.address,
-        city = "",
-        price = this.price.toDouble(),
-        active = true,
-        period = if (this.period == Period.SHORT) 0 else 1,
-        userId = this.userId
-    )
-}

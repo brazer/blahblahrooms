@@ -2,8 +2,8 @@ package com.softeq.blahblahrooms.data.repo
 
 import com.softeq.blahblahrooms.data.api.RoomService
 import com.softeq.blahblahrooms.data.exception.ApiException
-import com.softeq.blahblahrooms.data.model.asNewPlacement
-import com.softeq.blahblahrooms.data.model.asRoom
+import com.softeq.blahblahrooms.data.mappers.asNewPlacement
+import com.softeq.blahblahrooms.data.mappers.asRoom
 import com.softeq.blahblahrooms.domain.models.Room
 import com.softeq.blahblahrooms.domain.repositories.RoomsRepo
 

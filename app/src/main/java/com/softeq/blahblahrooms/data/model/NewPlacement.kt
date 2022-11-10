@@ -1,14 +1,13 @@
 package com.softeq.blahblahrooms.data.model
 
-import com.softeq.blahblahrooms.domain.models.Period
-import com.softeq.blahblahrooms.domain.models.Room
+import com.softeq.blahblahrooms.data.DataConfig
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class NewPlacement(
     @SerialName("type")
-    val type: String = PlacementType.Flat.name,
+    val type: String = DataConfig.PLACEMENT_TYPE_FLAT,
     @SerialName("description")
     val description: String = "",
     @SerialName("contacts")
@@ -26,23 +25,7 @@ data class NewPlacement(
     @SerialName("active")
     val active: Boolean = true,
     @SerialName("period")
-    val period: String = PeriodType.Short.name,
+    val period: String = DataConfig.PERIOD_TYPE_SHORT,
     @SerialName("userId")
     val userId: String = ""
 )
-
-fun Room.asNewPlacement(): NewPlacement {
-    return NewPlacement(
-        type = PlacementType.Flat.name,
-        description = this.description,
-        contacts = this.email,
-        longitude = this.location.longitude,
-        latitude = this.location.latitude,
-        address = this.address,
-        city = "",
-        price = this.price.toDouble(),
-        active = true,
-        period = if (this.period == Period.SHORT) PeriodType.Short.name else PeriodType.Long.name,
-        userId = this.userId
-    )
-}
