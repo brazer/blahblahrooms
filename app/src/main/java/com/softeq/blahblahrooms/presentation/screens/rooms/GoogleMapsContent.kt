@@ -2,21 +2,23 @@ package com.softeq.blahblahrooms.presentation.screens.rooms
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMapOptions
 import com.google.android.gms.maps.model.CameraPosition
-import com.google.maps.android.compose.GoogleMap
-import com.google.maps.android.compose.Marker
-import com.google.maps.android.compose.MarkerState
-import com.google.maps.android.compose.rememberCameraPositionState
+import com.google.android.gms.maps.model.LatLngBounds
+import com.google.maps.android.clustering.ClusterManager
+import com.google.maps.android.compose.*
+import com.softeq.blahblahrooms.data.models.RoomMarker
 import com.softeq.blahblahrooms.data.providers.CurrentLocationProvider
-import com.softeq.blahblahrooms.data.providers.getMarkerTitle
-import com.softeq.blahblahrooms.data.providers.getSnippet
-import com.softeq.blahblahrooms.domain.models.Room
+import com.softeq.blahblahrooms.data.providers.MAP_ID
 
+@OptIn(MapsComposeExperimentalApi::class)
 @Composable
 fun GoogleMapsContent(
-    rooms: List<Room>,
+    roomMarkers: List<RoomMarker>,
     onMarkerInfoClicked: (id: Int) -> Unit
 ) {
     val currentLocation = CurrentLocationProvider.location
@@ -25,18 +27,50 @@ fun GoogleMapsContent(
             position = CameraPosition.fromLatLngZoom(currentLocation, 10f)
         }
     } else rememberCameraPositionState()
+    val mapProperties = remember {
+        MapProperties(
+            isBuildingEnabled = true,
+            isMyLocationEnabled = true
+        )
+    }
     Column(modifier = Modifier.fillMaxSize()) {
         GoogleMap(
             modifier = Modifier.fillMaxSize(),
-            cameraPositionState = cameraPositionState
+            cameraPositionState = cameraPositionState,
+            properties = mapProperties,
+            googleMapOptionsFactory = {
+                GoogleMapOptions().mapId(MAP_ID)
+            }
         ) {
-            rooms.forEach { room ->
-                Marker(
-                    state = MarkerState(position = room.location),
-                    title = room.getMarkerTitle(),
-                    snippet = room.getSnippet(),
-                    onInfoWindowClick = {
-                        onMarkerInfoClicked(room.id)
+            val context = LocalContext.current
+            var clusterManager by remember {
+                mutableStateOf<ClusterManager<RoomMarker>?>(null)
+            }
+            MapEffect(roomMarkers) { map ->
+                if (clusterManager == null) {
+                    clusterManager = ClusterManager(context, map)
+                }
+                clusterManager?.renderer = MarkerRenderer(context, map, checkNotNull(clusterManager))
+                map.clear() //hotfix: there is a marker on (0.0, 0.0) location
+                clusterManager?.addItems(roomMarkers)
+                clusterManager?.setOnClusterClickListener { cluster ->
+                    val builder = LatLngBounds.builder()
+                    cluster.items.forEach { marker ->
+                        builder.include(marker.position)
+                    }
+                    val bounds = builder.build()
+                    val camUpdate = CameraUpdateFactory.newLatLngBounds(bounds, 250)
+                    map.animateCamera(camUpdate)
+                    true
+                }
+                map.setOnCameraIdleListener(clusterManager)
+            }
+            roomMarkers.forEach { roomMarker ->
+                MarkerInfoWindow(
+                    state = rememberMarkerState(),
+                    onClick = {
+                        onMarkerInfoClicked(roomMarker.room.id)
+                        true
                     }
                 )
             }

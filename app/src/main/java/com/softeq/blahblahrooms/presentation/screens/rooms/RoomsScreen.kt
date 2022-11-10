@@ -11,6 +11,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.softeq.blahblahrooms.R
+import com.softeq.blahblahrooms.data.mappers.map
 import com.softeq.blahblahrooms.presentation.components.ProgressView
 import com.softeq.blahblahrooms.presentation.components.TopBlahBlahRoomsBar
 import com.softeq.blahblahrooms.presentation.route.NavigationArguments
@@ -70,7 +71,7 @@ fun RoomsScreen(navController: NavController) {
                     }
                 }
                 1 -> {
-                    GoogleMapsContent(state.value.rooms) { roomId ->
+                    GoogleMapsContent(state.value.rooms.map()) { roomId ->
                         roomsViewModel.roomClicked(roomId)
                     }
                 }
