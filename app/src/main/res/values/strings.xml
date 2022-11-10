@@ -35,4 +35,6 @@
     <string name="list">List</string>
     <string name="map">Map</string>
 
+    <!--    Error-->
+    <string name="default_error">Something went wrong</string>
 </resources>

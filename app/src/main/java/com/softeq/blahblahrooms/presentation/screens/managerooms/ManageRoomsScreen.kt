@@ -6,7 +6,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -19,23 +18,16 @@ import com.softeq.blahblahrooms.presentation.route.NavigationRoute
 import com.softeq.blahblahrooms.presentation.route.navigateString
 import com.softeq.blahblahrooms.presentation.vm.managerooms.ManageRoomsSideEffect
 import com.softeq.blahblahrooms.presentation.vm.managerooms.ManageRoomsViewModel
-import com.softeq.blahblahrooms.presentation.vm.shared.SharedRoomsViewModel
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ManageRoomsScreen(
-    navController: NavController,
-    sharedRoomsViewModel: SharedRoomsViewModel
+    navController: NavController
 ) {
-    val sharedState = sharedRoomsViewModel.collectAsState()
     val manageRoomsViewModel: ManageRoomsViewModel = hiltViewModel()
     val state = manageRoomsViewModel.collectAsState()
-
-    LaunchedEffect(key1 = null, block = {
-        manageRoomsViewModel.setRooms(sharedState.value.userRooms)
-    })
 
     manageRoomsViewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
@@ -53,8 +45,10 @@ fun ManageRoomsScreen(
 
     Scaffold(
         topBar = {
-            TopBlahBlahRoomsBar(title = stringResource(id = R.string.manage_rooms),
-                manageRoomsViewModel::onBackButtonClicked)
+            TopBlahBlahRoomsBar(
+                title = stringResource(id = R.string.manage_rooms),
+                manageRoomsViewModel::onBackButtonClicked
+            )
         }
     ) {
         LazyColumn(modifier = Modifier.padding(it)) {

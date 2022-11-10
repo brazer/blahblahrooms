@@ -1,7 +1,6 @@
 package com.softeq.blahblahrooms.presentation.route
 
 import androidx.compose.runtime.Composable
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -13,19 +12,16 @@ import com.softeq.blahblahrooms.presentation.screens.managerooms.ManageRoomsScre
 import com.softeq.blahblahrooms.presentation.screens.roomdetails.RoomDetailsScreen
 import com.softeq.blahblahrooms.presentation.screens.rooms.RoomsScreen
 import com.softeq.blahblahrooms.presentation.screens.roomupdate.RoomUpdateScreen
-import com.softeq.blahblahrooms.presentation.vm.shared.SharedRoomsViewModel
 
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
-    val sharedRoomsViewModel: SharedRoomsViewModel = hiltViewModel()
 
     NavHost(navController = navController, startDestination = NavigationRoute.ROUTE_MAIN) {
 
         composable(NavigationRoute.ROUTE_MAIN) {
             MainScreen(
-                navController = navController,
-                sharedRoomsViewModel = sharedRoomsViewModel
+                navController = navController
             )
         }
 
@@ -48,7 +44,6 @@ fun Navigation() {
         ) {
             RoomDetailsScreen(
                 navController = navController,
-                sharedRoomsViewModel = sharedRoomsViewModel,
                 roomId = it.arguments?.getInt(NavigationArguments.ARGUMENT_ROOM_ID) ?: 0
             )
         }
@@ -59,8 +54,7 @@ fun Navigation() {
 
         composable(NavigationRoute.ROUTE_MANAGE_ROOMS) {
             ManageRoomsScreen(
-                navController = navController,
-                sharedRoomsViewModel = sharedRoomsViewModel
+                navController = navController
             )
         }
 
@@ -79,7 +73,6 @@ fun Navigation() {
         ) {
             RoomUpdateScreen(
                 navController = navController,
-                sharedRoomsViewModel = sharedRoomsViewModel,
                 roomId = it.arguments?.getInt(NavigationArguments.ARGUMENT_ROOM_ID) ?: 0
             )
         }

@@ -2,17 +2,15 @@ package com.softeq.blahblahrooms.domain.usecases
 
 import com.softeq.blahblahrooms.domain.models.Room
 import com.softeq.blahblahrooms.domain.repositories.RoomsLocalRepo
-import com.softeq.blahblahrooms.domain.repositories.RoomsRepo
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class AddRoomUseCaseImpl @Inject constructor(
-    private val repo: RoomsRepo,
+class GetRoomsUseCaseImpl @Inject constructor(
     private val localRepo: RoomsLocalRepo
-) : AddRoomUseCase {
-    override suspend fun invoke(room: Room) = withContext(Dispatchers.IO) {
-        val addedRoom = repo.addRoom(room)
-        localRepo.setRoom(addedRoom)
+) : GetRoomsUseCase {
+    override suspend fun invoke(): Flow<List<Room>> = withContext(Dispatchers.IO) {
+        return@withContext localRepo.getRooms()
     }
 }

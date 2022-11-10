@@ -10,6 +10,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -28,19 +29,30 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 fun AddRoomScreen(navController: NavController) {
     val viewModel: AddRoomViewModel = hiltViewModel()
     val state = viewModel.collectAsState()
-    Scaffold(topBar = { TopBlahBlahRoomsBar(stringResource(id = R.string.add_room), viewModel::onBackButtonClicked) }) {
-        RoomEditView(room = state.value.room, modifier = Modifier.padding(it), viewModel = viewModel)
-        if (state.value.progress) {
+    val context = LocalContext.current
+
+    Scaffold(
+        topBar = {
+            TopBlahBlahRoomsBar(
+                stringResource(id = R.string.add_room),
+                viewModel::onBackButtonClicked
+            )
+        }) {
+
+        RoomEditView(
+            room = state.value.room,
+            modifier = Modifier.padding(it),
+            viewModel = viewModel
+        )
+        if (state.value.isLoading) {
             ProgressView()
         }
     }
+
     viewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
-            AddRoomSideEffect.RoomIsAdded -> {
-                navController.popBackStack()
-            }
-            is AddRoomSideEffect.Toast -> {
-                Toast.makeText(sideEffect.context, sideEffect.message, Toast.LENGTH_SHORT).show()
+            is AddRoomSideEffect.ShowError -> {
+                Toast.makeText(context, sideEffect.errorMessage, Toast.LENGTH_SHORT).show()
             }
             AddRoomSideEffect.NavigatedBack -> {
                 navController.popBackStack()
