@@ -1,6 +1,7 @@
 package com.softeq.blahblahrooms.domain.models
 
 import com.google.android.gms.maps.model.LatLng
+import com.softeq.blahblahrooms.data.model.Period
 
 data class Room(
     val id: Int,
@@ -12,7 +13,3 @@ data class Room(
     val description: String,
     val email: String
 )
-
-enum class Period {
-    LONG, SHORT
-}

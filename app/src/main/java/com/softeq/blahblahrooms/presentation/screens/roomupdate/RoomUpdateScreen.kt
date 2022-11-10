@@ -1,8 +1,13 @@
 package com.softeq.blahblahrooms.presentation.screens.roomupdate
 
 import android.widget.Toast
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -16,7 +21,6 @@ import com.softeq.blahblahrooms.presentation.components.ProgressView
 import com.softeq.blahblahrooms.presentation.components.TopBlahBlahRoomsBar
 import com.softeq.blahblahrooms.presentation.vm.roomupdate.RoomUpdateSideEffect
 import com.softeq.blahblahrooms.presentation.vm.roomupdate.RoomUpdateViewModel
-import com.softeq.blahblahrooms.presentation.vm.shared.SharedRoomsViewModel
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 
@@ -24,17 +28,11 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 @Composable
 fun RoomUpdateScreen(
     navController: NavController,
-    sharedRoomsViewModel: SharedRoomsViewModel,
     roomId: Int
 ) {
-    val sharedState = sharedRoomsViewModel.collectAsState()
     val roomUpdateViewModel: RoomUpdateViewModel = hiltViewModel()
     val state = roomUpdateViewModel.collectAsState()
     val context = LocalContext.current
-
-    LaunchedEffect(key1 = null, block = {
-        roomUpdateViewModel.setRoom(sharedState.value.userRooms, roomId)
-    })
 
     roomUpdateViewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
@@ -42,10 +40,18 @@ fun RoomUpdateScreen(
                 navController.popBackStack()
             }
             is RoomUpdateSideEffect.ShowError -> {
-                Toast.makeText(context, sideEffect.errorMessage, Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    sideEffect.errorMessage ?: context.getString(R.string.default_error),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
+
+    LaunchedEffect(key1 = null, block = {
+        roomUpdateViewModel.setRoom(roomId)
+    })
 
     state.value.room?.let { room ->
         Scaffold(
