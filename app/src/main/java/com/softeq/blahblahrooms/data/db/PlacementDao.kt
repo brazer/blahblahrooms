@@ -16,6 +16,18 @@ interface PlacementDao {
     @Query("SELECT * FROM placements WHERE id=:id")
     fun getPlacementById(id: Int): Flow<PlacementDTO>
 
+    @Query(
+        "SELECT * FROM placements WHERE period IN (:period) " +
+                "AND city LIKE :city " +
+                "AND price BETWEEN :minPrice AND :maxPrice"
+    )
+    fun getPlacementsByFilters(
+        period: List<Int>,
+        city: String,
+        minPrice: Double,
+        maxPrice: Double,
+    ): Flow<List<PlacementDTO>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllPlacements(placements: List<PlacementDTO>)
 

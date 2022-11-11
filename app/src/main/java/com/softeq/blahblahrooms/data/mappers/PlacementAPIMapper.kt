@@ -14,7 +14,7 @@ fun Room.asPlacementAPI(): PlacementAPI {
         longitude = this.location.longitude,
         latitude = this.location.latitude,
         address = this.address,
-        city = "",
+        city = this.city,
         price = this.price.toDouble(),
         active = true,
         period = this.period,
@@ -29,6 +29,7 @@ fun PlacementAPI.asRoom(): Room {
         price = this.price.toFloat(),
         location = LatLng(this.latitude, this.longitude),
         address = this.address,
+        city = this.city,
         period = this.period,
         description = this.description,
         email = this.contacts

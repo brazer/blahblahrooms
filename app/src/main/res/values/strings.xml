@@ -12,6 +12,7 @@
     <string name="latitude">latitude</string>
     <string name="longitude">longitude</string>
     <string name="address">Address</string>
+    <string name="city">City</string>
     <string name="description">Description</string>
     <string name="period">Period</string>
     <string name="period_short">Short</string>
@@ -34,6 +35,13 @@
     <!--    Pages-->
     <string name="list">List</string>
     <string name="map">Map</string>
+
+    <!--    Filters-->
+    <string name="minPrice">Min price</string>
+    <string name="maxPrice">Max price</string>
+    <string name="filters">Filters</string>
+    <string name="apply">Apply</string>
+    <string name="both">Both</string>
 
     <!--    Error-->
     <string name="default_error">Something went wrong</string>

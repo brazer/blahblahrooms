@@ -48,6 +48,7 @@ fun RoomDetailsScreen(
                     onPriceChanged = {},
                     onLocationChanged = {},
                     onAddressChanged = {},
+                    onCityChanged = {},
                     onDescriptionChanged = {},
                     onPeriodChanged = {},
                     onEmailChanged = {}
