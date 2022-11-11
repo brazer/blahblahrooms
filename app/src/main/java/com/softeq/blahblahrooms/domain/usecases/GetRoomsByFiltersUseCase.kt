@@ -1,6 +1,6 @@
 package com.softeq.blahblahrooms.domain.usecases
 
-import com.softeq.blahblahrooms.data.model.Period
+import com.softeq.blahblahrooms.data.models.Period
 import com.softeq.blahblahrooms.domain.models.Room
 import kotlinx.coroutines.flow.Flow
 

@@ -146,37 +146,35 @@ fun EditRoom(
             readOnly = !editable,
             textStyle = MaterialTheme.typography.bodyMedium,
             shape = MaterialTheme.shapes.medium,
-            onValueChange = {
-                onAddressChanged(it)
-            }
+            onValueChange = onAddressChanged
         )
 
         OutlinedTextField(
+            value = room.city,
+            label = {
+                Text(
+                    text = stringResource(R.string.city),
+                    style = MaterialTheme.typography.labelLarge
+                )
+            },
+            readOnly = !editable,
+            onValueChange = onCityChanged
+        )
+
+        OutlinedTextField(
+            value = room.description,
             label = {
                 Text(
                     text = stringResource(R.string.description),
                     style = MaterialTheme.typography.labelLarge
                 )
             },
-        Text(text = stringResource(R.string.city))
-        TextField(
-            value = room.city,
-            onValueChange = {
-                onCityChanged(it)
-            }
-        )
-
-        Text(text = stringResource(R.string.description))
-        TextField(
-            value = room.description,
             modifier = Modifier
                 .padding(vertical = verticalPadding)
                 .fillMaxWidth(),
             readOnly = !editable,
             textStyle = MaterialTheme.typography.bodyMedium,
-            onValueChange = {
-                onDescriptionChanged(it)
-            }
+            onValueChange = onDescriptionChanged
         )
 
         Text(
@@ -193,14 +191,9 @@ fun EditRoom(
                 checked = room.period == Period.LONG,
                 enabled = editable,
                 onCheckedChange = {
-                onPeriodChanged(
-                    if (it) {
-                        Period.LONG
-                    } else {
-                        Period.SHORT
-                    }
-                )
-            })
+                    onPeriodChanged(if (it) Period.LONG else Period.SHORT)
+                }
+            )
             Text(
                 text = stringResource(R.string.period_long),
                 style = MaterialTheme.typography.labelMedium
@@ -220,9 +213,7 @@ fun EditRoom(
                 .fillMaxWidth(),
             readOnly = !editable,
             textStyle = MaterialTheme.typography.bodyMedium,
-            onValueChange = {
-                onEmailChanged(it)
-            }
+            onValueChange = onEmailChanged
         )
     }
 }
