@@ -1,4 +1,4 @@
-package com.softeq.blahblahrooms.data.model
+package com.softeq.blahblahrooms.data.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

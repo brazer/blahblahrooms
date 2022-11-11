@@ -1,7 +1,7 @@
 package com.softeq.blahblahrooms.data.mappers
 
-import com.softeq.blahblahrooms.data.model.NewPlacement
-import com.softeq.blahblahrooms.data.model.PlacementType
+import com.softeq.blahblahrooms.data.models.NewPlacement
+import com.softeq.blahblahrooms.data.models.PlacementType
 import com.softeq.blahblahrooms.domain.models.Room
 
 

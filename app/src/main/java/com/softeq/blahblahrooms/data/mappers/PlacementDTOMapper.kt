@@ -1,8 +1,8 @@
 package com.softeq.blahblahrooms.data.mappers
 
 import com.google.android.gms.maps.model.LatLng
-import com.softeq.blahblahrooms.data.model.Period
-import com.softeq.blahblahrooms.data.model.PlacementDTO
+import com.softeq.blahblahrooms.data.models.Period
+import com.softeq.blahblahrooms.data.models.PlacementDTO
 import com.softeq.blahblahrooms.domain.models.Room
 
 fun PlacementDTO.asRoom(): Room {

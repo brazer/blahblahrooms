@@ -9,8 +9,8 @@
     <!--    Edit Room-->
     <string name="price">Price</string>
     <string name="location">Location</string>
-    <string name="latitude">latitude</string>
-    <string name="longitude">longitude</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
     <string name="address">Address</string>
     <string name="description">Description</string>
     <string name="period">Period</string>

@@ -1,7 +1,7 @@
 package com.softeq.blahblahrooms.presentation
 
 import com.google.android.gms.maps.model.LatLng
-import com.softeq.blahblahrooms.data.model.Period
+import com.softeq.blahblahrooms.data.models.Period
 
 interface EditRoomInterface {
     fun roomPriceChanged(price: Float)
