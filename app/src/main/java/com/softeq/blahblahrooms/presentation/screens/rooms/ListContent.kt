@@ -13,9 +13,7 @@ fun ListContent(
 ) {
     LazyColumn {
         items(rooms) { room ->
-            RoomTile(room = room, onClick = { id ->
-                onRoomClicked(id)
-            })
+            RoomTile(room = room, onClick = onRoomClicked)
         }
     }
 }
