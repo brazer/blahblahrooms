@@ -73,6 +73,7 @@ fun RoomUpdateScreen(
                     onPriceChanged = roomUpdateViewModel::roomPriceChanged,
                     onLocationChanged = roomUpdateViewModel::roomLocationChanged,
                     onAddressChanged = roomUpdateViewModel::roomAddressChanged,
+                    onCityChanged = roomUpdateViewModel::roomCityChanged,
                     onDescriptionChanged = roomUpdateViewModel::roomDescriptionChanged,
                     onPeriodChanged = roomUpdateViewModel::roomPeriodChanged,
                     onEmailChanged = roomUpdateViewModel::roomEmailChanged

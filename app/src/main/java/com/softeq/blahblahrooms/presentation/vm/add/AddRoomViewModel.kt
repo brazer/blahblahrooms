@@ -76,6 +76,10 @@ class AddRoomViewModel @Inject constructor(
         reduce { state.copy(room = state.room.copy(address = address)) }
     }
 
+    override fun roomCityChanged(city: String) = intent {
+        reduce { state.copy(room = state.room.copy(city = city)) }
+    }
+
     override fun roomDescriptionChanged(description: String) = intent {
         reduce { state.copy(room = state.room.copy(description = description)) }
     }
@@ -97,7 +101,8 @@ class AddRoomViewModel @Inject constructor(
             address = "",
             period = Period.SHORT,
             description = "",
-            email = ""
+            email = "",
+            city = ""
         )
     }
 }

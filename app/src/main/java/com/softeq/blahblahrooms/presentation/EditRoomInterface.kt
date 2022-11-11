@@ -7,6 +7,7 @@ interface EditRoomInterface {
     fun roomPriceChanged(price: Float)
     fun roomLocationChanged(location: LatLng)
     fun roomAddressChanged(address: String)
+    fun roomCityChanged(city: String)
     fun roomDescriptionChanged(description: String)
     fun roomPeriodChanged(period: Period)
     fun roomEmailChanged(email: String)

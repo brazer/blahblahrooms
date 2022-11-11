@@ -75,6 +75,7 @@ private fun RoomEditView(room: Room, modifier: Modifier = Modifier, viewModel: A
             onPriceChanged = viewModel::roomPriceChanged,
             onLocationChanged = viewModel::roomLocationChanged,
             onAddressChanged = viewModel::roomAddressChanged,
+            onCityChanged = viewModel::roomCityChanged,
             onDescriptionChanged = viewModel::roomDescriptionChanged,
             onPeriodChanged = viewModel::roomPeriodChanged,
             onEmailChanged = viewModel::roomEmailChanged

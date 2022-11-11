@@ -55,6 +55,12 @@ class RoomUpdateViewModel @Inject constructor(
         }
     }
 
+    override fun roomCityChanged(city: String) = intent {
+        reduce {
+            state.copy(room = state.room?.copy(city = city))
+        }
+    }
+
     override fun roomDescriptionChanged(description: String) = intent {
         reduce {
             state.copy(room = state.room?.copy(description = description))

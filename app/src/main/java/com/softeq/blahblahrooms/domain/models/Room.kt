@@ -8,6 +8,7 @@ data class Room(
     val userId: String,
     val price: Float,
     val location: LatLng,
+    val city: String,
     val address: String,
     val period: Period,
     val description: String,

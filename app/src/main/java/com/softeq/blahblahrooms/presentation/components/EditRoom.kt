@@ -30,6 +30,7 @@ fun EditRoom(
     onPriceChanged: (price: Float) -> Unit,
     onLocationChanged: (location: LatLng) -> Unit,
     onAddressChanged: (address: String) -> Unit,
+    onCityChanged: (city: String) -> Unit,
     onDescriptionChanged: (description: String) -> Unit,
     onPeriodChanged: (period: Period) -> Unit,
     onEmailChanged: (email: String) -> Unit,
@@ -157,6 +158,16 @@ fun EditRoom(
                     style = MaterialTheme.typography.labelLarge
                 )
             },
+        Text(text = stringResource(R.string.city))
+        TextField(
+            value = room.city,
+            onValueChange = {
+                onCityChanged(it)
+            }
+        )
+
+        Text(text = stringResource(R.string.description))
+        TextField(
             value = room.description,
             modifier = Modifier
                 .padding(vertical = verticalPadding)
@@ -233,7 +244,7 @@ private fun buildStaticMapUrl(markerLocation: LatLng, widthPx: Int, heightPx: In
 fun EditRoomPreview() {
     val room = Room(
         1, "1", 100.0f, LatLng(32.0, 54.0), "address",
-        Period.SHORT, "Description", "email"
+        "city", Period.SHORT, "Description", "email"
     )
     Surface {
         EditRoom(
@@ -242,6 +253,7 @@ fun EditRoomPreview() {
             onPriceChanged = {},
             onLocationChanged = {},
             onAddressChanged = {},
+            onCityChanged = {},
             onDescriptionChanged = {},
             onPeriodChanged = {},
             onEmailChanged = {}
