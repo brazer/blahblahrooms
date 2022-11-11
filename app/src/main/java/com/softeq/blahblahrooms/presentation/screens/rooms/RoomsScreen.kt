@@ -27,7 +27,7 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RoomsScreen(navController: NavController) {
-    val pagerState = remember { mutableStateOf(0) }
+    val pagerState = remember { mutableStateOf(1) }
     val pages = listOf(
         stringResource(id = R.string.list),
         stringResource(id = R.string.map),

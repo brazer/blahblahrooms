@@ -5,6 +5,8 @@ import com.softeq.blahblahrooms.domain.models.Room
 import com.softeq.blahblahrooms.domain.usecases.GetRoomsByUserIdUseCase
 import com.softeq.blahblahrooms.domain.usecases.LoadRoomsUseCase
 import com.softeq.blahblahrooms.domain.usecases.SetUserIdUseCase
+import com.softeq.blahblahrooms.presentation.route.NavigationBottomItem
+import com.softeq.blahblahrooms.presentation.route.NavigationRoute
 import com.softeq.blahblahrooms.presentation.vm.useCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import org.orbitmvi.orbit.ContainerHost
@@ -28,18 +30,6 @@ class MainViewModel @Inject constructor(
     init {
         initUserId()
         loadData()
-        loadUserRooms()
-    }
-
-    private fun loadUserRooms() = intent {
-        useCase {
-            getRoomsByUserIdUseCase.invoke().collect {
-                userRooms = it
-                if (userRooms.isNotEmpty()) {
-                    reduce { state.copy(isManageRoomButtonVisible = true) }
-                }
-            }
-        }
     }
 
     private fun loadData() = intent {
@@ -61,35 +51,45 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun manageRoomsButtonClicked() = intent {
-        when (userRooms.size) {
-            1 -> {
-                postSideEffect(MainSideEffect.NavigateToRoomUpdateScreen(userRooms.first().id))
-            }
-            else -> {
-                postSideEffect(MainSideEffect.NavigateToManageRoomsScreen)
+    fun initScreen(
+        tabs: List<NavigationBottomItem>
+    ) = intent {
+        useCase {
+            getRoomsByUserIdUseCase.invoke().collect {
+                userRooms = it
+                if (userRooms.isNotEmpty()) {
+                    reduce { state.copy(tabs = tabs) }
+                } else {
+                    reduce { state.copy(tabs = tabs.dropLast(1)) }
+                }
             }
         }
     }
 
-    fun addRoomsButtonClicked() = intent {
-        postSideEffect(MainSideEffect.NavigateToAddRoomScreen)
-    }
-
-    fun roomsButtonClicked() = intent {
-        postSideEffect(MainSideEffect.NavigateToRoomsScreen)
+    fun navigationTabClicked(route: String) = intent {
+        if (route == NavigationRoute.ROUTE_MANAGE_ROOMS) {
+            when (userRooms.size) {
+                1 -> {
+                    postSideEffect(MainSideEffect.NavigateToRoomUpdateScreen(userRooms.first().id))
+                }
+                else -> {
+                    postSideEffect(MainSideEffect.NavigateToManageRoomsScreen)
+                }
+            }
+        } else {
+            postSideEffect(MainSideEffect.NavigateToRoute(route = route))
+        }
     }
 }
 
 data class MainState(
     val isLoading: Boolean = false,
-    val isManageRoomButtonVisible: Boolean = false
+    val tabs: List<NavigationBottomItem> = emptyList()
 )
 
 sealed class MainSideEffect {
-    object NavigateToAddRoomScreen : MainSideEffect()
-    object NavigateToRoomsScreen : MainSideEffect()
     object NavigateToManageRoomsScreen : MainSideEffect()
     data class NavigateToRoomUpdateScreen(val roomId: Int) : MainSideEffect()
     object ShowError : MainSideEffect()
+    data class NavigateToRoute(val route: String) : MainSideEffect()
 }
