@@ -13,7 +13,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.softeq.blahblahrooms.R
 import com.softeq.blahblahrooms.data.mappers.map
-import com.softeq.blahblahrooms.data.model.Period
+import com.softeq.blahblahrooms.data.models.Period
 import com.softeq.blahblahrooms.presentation.components.ProgressView
 import com.softeq.blahblahrooms.presentation.components.TopBlahBlahRoomsBar
 import com.softeq.blahblahrooms.presentation.route.NavigationArguments

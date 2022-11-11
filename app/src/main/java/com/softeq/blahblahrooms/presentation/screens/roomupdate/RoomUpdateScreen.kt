@@ -3,7 +3,10 @@ package com.softeq.blahblahrooms.presentation.screens.roomupdate
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -13,6 +16,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.softeq.blahblahrooms.R
@@ -57,9 +61,15 @@ fun RoomUpdateScreen(
         Scaffold(
             topBar = { TopBlahBlahRoomsBar(room.address, roomUpdateViewModel::cancelButtonClicked) }
         ) {
-            Column(modifier = Modifier.padding(it)) {
+            val scrollState = rememberScrollState()
+            Column(modifier = Modifier
+                .padding(it)
+                .fillMaxHeight()
+                .verticalScroll(scrollState)
+                .padding(horizontal = 16.dp, vertical = 8.dp)) {
                 EditRoom(
                     room = room,
+                    editable = true,
                     onPriceChanged = roomUpdateViewModel::roomPriceChanged,
                     onLocationChanged = roomUpdateViewModel::roomLocationChanged,
                     onAddressChanged = roomUpdateViewModel::roomAddressChanged,
@@ -69,14 +79,11 @@ fun RoomUpdateScreen(
                     onEmailChanged = roomUpdateViewModel::roomEmailChanged
                 )
                 Row {
-                    Button(onClick = {
-                        roomUpdateViewModel.saveButtonClicked()
-                    }) {
+                    Button(onClick = roomUpdateViewModel::saveButtonClicked,
+                        modifier = Modifier.padding(end = 4.dp)) {
                         Text(text = stringResource(id = R.string.save))
                     }
-                    Button(onClick = {
-                        roomUpdateViewModel.cancelButtonClicked()
-                    }) {
+                    Button(onClick = roomUpdateViewModel::cancelButtonClicked) {
                         Text(text = stringResource(id = R.string.cancel))
                     }
                 }

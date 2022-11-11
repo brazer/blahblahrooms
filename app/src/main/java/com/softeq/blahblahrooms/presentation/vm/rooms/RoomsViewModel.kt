@@ -2,7 +2,7 @@ package com.softeq.blahblahrooms.presentation.vm.rooms
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.softeq.blahblahrooms.data.model.Period
+import com.softeq.blahblahrooms.data.models.Period
 import com.softeq.blahblahrooms.domain.models.Room
 import com.softeq.blahblahrooms.domain.usecases.GetRoomsByFiltersUseCase
 import com.softeq.blahblahrooms.domain.usecases.GetRoomsUseCase

@@ -1,8 +1,8 @@
 package com.softeq.blahblahrooms.data.mappers
 
 import com.google.android.gms.maps.model.LatLng
-import com.softeq.blahblahrooms.data.model.PlacementAPI
-import com.softeq.blahblahrooms.data.model.PlacementType
+import com.softeq.blahblahrooms.data.models.PlacementAPI
+import com.softeq.blahblahrooms.data.models.PlacementType
 import com.softeq.blahblahrooms.domain.models.Room
 
 fun Room.asPlacementAPI(): PlacementAPI {

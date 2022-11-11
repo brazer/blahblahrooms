@@ -7,8 +7,6 @@ import com.softeq.blahblahrooms.domain.models.Room
 import java.text.NumberFormat
 import java.util.*
 
-const val MAP_ID = "3e658bcaba70fbb7"
-
 fun Room.getMarkerTitle(): String {
     return getPriceUSFormat()
 }

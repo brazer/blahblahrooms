@@ -1,17 +1,15 @@
 package com.softeq.blahblahrooms.presentation.screens.add
 
 import android.widget.Toast
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.softeq.blahblahrooms.R
@@ -37,7 +35,8 @@ fun AddRoomScreen(navController: NavController) {
                 stringResource(id = R.string.add_room),
                 viewModel::onBackButtonClicked
             )
-        }) {
+        }
+    ) {
 
         RoomEditView(
             room = state.value.room,
@@ -63,9 +62,16 @@ fun AddRoomScreen(navController: NavController) {
 
 @Composable
 private fun RoomEditView(room: Room, modifier: Modifier = Modifier, viewModel: AddRoomViewModel) {
-    Column(modifier = modifier.fillMaxHeight()) {
+    val state = rememberScrollState()
+    Column(
+        modifier = modifier
+            .fillMaxHeight()
+            .verticalScroll(state)
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+    ) {
         EditRoom(
             room = room,
+            editable = true,
             onPriceChanged = viewModel::roomPriceChanged,
             onLocationChanged = viewModel::roomLocationChanged,
             onAddressChanged = viewModel::roomAddressChanged,
@@ -74,8 +80,13 @@ private fun RoomEditView(room: Room, modifier: Modifier = Modifier, viewModel: A
             onPeriodChanged = viewModel::roomPeriodChanged,
             onEmailChanged = viewModel::roomEmailChanged
         )
-        Button(onClick = viewModel::addRoom) {
-            Text(text = stringResource(id = R.string.add))
+        Button(
+            onClick = viewModel::addRoom
+        ) {
+            Text(
+                text = stringResource(id = R.string.add),
+                style = MaterialTheme.typography.labelLarge
+            )
         }
     }
 }

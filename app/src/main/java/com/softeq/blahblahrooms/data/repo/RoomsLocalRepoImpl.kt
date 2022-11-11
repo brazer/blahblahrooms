@@ -3,7 +3,7 @@ package com.softeq.blahblahrooms.data.repo
 import com.softeq.blahblahrooms.data.db.PlacementDao
 import com.softeq.blahblahrooms.data.mappers.asPlacementDTO
 import com.softeq.blahblahrooms.data.mappers.asRoom
-import com.softeq.blahblahrooms.data.model.Period
+import com.softeq.blahblahrooms.data.models.Period
 import com.softeq.blahblahrooms.domain.models.Room
 import com.softeq.blahblahrooms.domain.repositories.RoomsLocalRepo
 import kotlinx.coroutines.flow.Flow

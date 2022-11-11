@@ -1,7 +1,7 @@
 package com.softeq.blahblahrooms.data.db
 
 import androidx.room.*
-import com.softeq.blahblahrooms.data.model.PlacementDTO
+import com.softeq.blahblahrooms.data.models.PlacementDTO
 import kotlinx.coroutines.flow.Flow
 
 @Dao

@@ -1,4 +1,4 @@
-package com.softeq.blahblahrooms.data.model
+package com.softeq.blahblahrooms.data.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

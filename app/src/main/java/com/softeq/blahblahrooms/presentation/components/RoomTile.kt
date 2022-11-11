@@ -13,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.android.gms.maps.model.LatLng
 import com.softeq.blahblahrooms.R
-import com.softeq.blahblahrooms.data.model.Period
+import com.softeq.blahblahrooms.data.models.Period
 import com.softeq.blahblahrooms.data.providers.getPriceUSFormat
 import com.softeq.blahblahrooms.domain.models.Room
 import kotlinx.serialization.encodeToString

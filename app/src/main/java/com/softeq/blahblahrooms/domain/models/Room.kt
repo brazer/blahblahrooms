@@ -1,7 +1,7 @@
 package com.softeq.blahblahrooms.domain.models
 
 import com.google.android.gms.maps.model.LatLng
-import com.softeq.blahblahrooms.data.model.Period
+import com.softeq.blahblahrooms.data.models.Period
 
 data class Room(
     val id: Int,

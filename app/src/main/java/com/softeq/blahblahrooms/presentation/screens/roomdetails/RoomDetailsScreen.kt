@@ -1,12 +1,16 @@
 package com.softeq.blahblahrooms.presentation.screens.roomdetails
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.softeq.blahblahrooms.presentation.components.EditRoom
@@ -37,14 +41,21 @@ fun RoomDetailsScreen(
         roomDetailsViewModel.setRoom(roomId)
     })
 
-    // todo change to immutable content. Wait design
     state.value.room?.let { room ->
         Scaffold(
             topBar = { TopBlahBlahRoomsBar(room.address, roomDetailsViewModel::backButtonClicked) }
         ) {
-            Column(modifier = Modifier.padding(it)) {
+            val scrollState = rememberScrollState()
+            Column(
+                modifier = Modifier
+                    .padding(it)
+                    .fillMaxHeight()
+                    .verticalScroll(scrollState)
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+            ) {
                 EditRoom(
                     room = room,
+                    editable = false,
                     onPriceChanged = {},
                     onLocationChanged = {},
                     onAddressChanged = {},

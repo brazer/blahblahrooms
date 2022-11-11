@@ -11,9 +11,9 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.compose.*
+import com.softeq.blahblahrooms.data.DataConfig
 import com.softeq.blahblahrooms.data.models.RoomMarker
 import com.softeq.blahblahrooms.data.providers.CurrentLocationProvider
-import com.softeq.blahblahrooms.data.providers.MAP_ID
 
 @OptIn(MapsComposeExperimentalApi::class)
 @Composable
@@ -39,7 +39,7 @@ fun GoogleMapsContent(
             cameraPositionState = cameraPositionState,
             properties = mapProperties,
             googleMapOptionsFactory = {
-                GoogleMapOptions().mapId(MAP_ID)
+                GoogleMapOptions().mapId(DataConfig.MAP_ID)
             }
         ) {
             val context = LocalContext.current

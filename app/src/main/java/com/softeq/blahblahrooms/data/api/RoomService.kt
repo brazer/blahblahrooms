@@ -1,7 +1,7 @@
 package com.softeq.blahblahrooms.data.api
 
-import com.softeq.blahblahrooms.data.model.NewPlacement
-import com.softeq.blahblahrooms.data.model.PlacementAPI
+import com.softeq.blahblahrooms.data.models.NewPlacement
+import com.softeq.blahblahrooms.data.models.PlacementAPI
 import retrofit2.Call
 import retrofit2.http.*
 

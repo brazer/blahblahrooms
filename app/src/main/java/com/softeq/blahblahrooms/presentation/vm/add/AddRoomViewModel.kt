@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.google.android.gms.maps.model.LatLng
 import com.softeq.blahblahrooms.App
-import com.softeq.blahblahrooms.data.model.Period
+import com.softeq.blahblahrooms.data.models.Period
 import com.softeq.blahblahrooms.data.providers.isValid
 import com.softeq.blahblahrooms.domain.models.Room
 import com.softeq.blahblahrooms.domain.usecases.AddRoomUseCase
