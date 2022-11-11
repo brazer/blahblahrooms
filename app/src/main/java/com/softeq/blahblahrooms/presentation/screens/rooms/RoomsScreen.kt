@@ -84,25 +84,37 @@ fun RoomsScreen(navController: NavController) {
                                 .padding(8.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text(text = stringResource(R.string.period) + ":")
+                            Text(
+                                text = stringResource(R.string.period) + ":",
+                                style = MaterialTheme.typography.bodyLarge
+                            )
                             Spacer(modifier = Modifier.width(40.dp))
                             Checkbox(
                                 checked = state.value.period == Period.SHORT,
                                 onCheckedChange = {
                                     roomsViewModel.periodShortClicked()
                                 })
-                            Text(text = stringResource(R.string.period_short))
+                            Text(
+                                text = stringResource(R.string.period_short),
+                                style = MaterialTheme.typography.bodyMedium
+                            )
                             Spacer(modifier = Modifier.width(8.dp))
                             Checkbox(
                                 checked = state.value.period == Period.LONG,
                                 onCheckedChange = {
                                     roomsViewModel.periodLongClicked()
                                 })
-                            Text(text = stringResource(R.string.period_long))
+                            Text(
+                                text = stringResource(R.string.period_long),
+                                style = MaterialTheme.typography.bodyMedium
+                            )
                             Checkbox(checked = state.value.period == null, onCheckedChange = {
                                 roomsViewModel.periodBothClicked()
                             })
-                            Text(text = stringResource(R.string.both))
+                            Text(
+                                text = stringResource(R.string.both),
+                                style = MaterialTheme.typography.bodyMedium
+                            )
                         }
                         Row(
                             modifier = Modifier
@@ -110,13 +122,17 @@ fun RoomsScreen(navController: NavController) {
                                 .padding(8.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text(text = stringResource(R.string.city) + ":")
-                            TextField(
+                            OutlinedTextField(
                                 value = state.value.city ?: "",
                                 onValueChange = { text ->
                                     roomsViewModel.cityFilterChanged(text)
-                                }
-                            )
+                                },
+                                label = {
+                                    Text(
+                                        text = stringResource(R.string.city) + ":",
+                                        style = MaterialTheme.typography.labelMedium
+                                    )
+                                })
                         }
                         Row(
                             modifier = Modifier
@@ -124,29 +140,33 @@ fun RoomsScreen(navController: NavController) {
                                 .padding(8.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text(
-                                modifier = Modifier.weight(1f),
-                                text = stringResource(R.string.minPrice) + ":"
-                            )
-                            TextField(
+                            OutlinedTextField(
                                 modifier = Modifier.weight(1f),
                                 value = state.value.minPrice?.toString() ?: 0.0.toString(),
                                 onValueChange = { text ->
                                     roomsViewModel.minPriceFilterChanged(text.toDoubleOrNull())
-                                }
-                            )
+                                },
+                                label = {
+                                    Text(
+                                        modifier = Modifier.weight(1f),
+                                        text = stringResource(R.string.minPrice) + ":",
+                                        style = MaterialTheme.typography.labelMedium
+                                    )
+                                })
                             Spacer(modifier = Modifier.width(10.dp))
-                            Text(
-                                modifier = Modifier.weight(1f),
-                                text = stringResource(R.string.maxPrice) + ":"
-                            )
-                            TextField(
+                            OutlinedTextField(
                                 modifier = Modifier.weight(1f),
                                 value = state.value.maxPrice?.toString() ?: 0.0.toString(),
                                 onValueChange = { text ->
                                     roomsViewModel.maxPriceFilterChanged(text.toDoubleOrNull())
-                                }
-                            )
+                                },
+                                label = {
+                                    Text(
+                                        modifier = Modifier.weight(1f),
+                                        text = stringResource(R.string.maxPrice) + ":",
+                                        style = MaterialTheme.typography.labelMedium
+                                    )
+                                })
                         }
                         Button(onClick = { roomsViewModel.applyButtonClicked() }) {
                             Text(text = stringResource(id = R.string.apply))
