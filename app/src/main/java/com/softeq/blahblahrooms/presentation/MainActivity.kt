@@ -14,6 +14,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import com.softeq.blahblahrooms.data.providers.CurrentLocationProvider
 import com.softeq.blahblahrooms.presentation.screens.main.MainScreen
+import com.softeq.blahblahrooms.presentation.screens.splash.SplashScreen
 import com.softeq.blahblahrooms.presentation.ui.BlahBlahRoomsTheme
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -46,6 +47,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     MainScreen()
+                    SplashScreen()
                 }
             }
         }
