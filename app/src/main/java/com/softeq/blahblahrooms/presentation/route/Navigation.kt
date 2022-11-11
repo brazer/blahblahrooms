@@ -1,30 +1,20 @@
 package com.softeq.blahblahrooms.presentation.route
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.softeq.blahblahrooms.presentation.screens.add.AddRoomScreen
-import com.softeq.blahblahrooms.presentation.screens.main.MainScreen
 import com.softeq.blahblahrooms.presentation.screens.managerooms.ManageRoomsScreen
 import com.softeq.blahblahrooms.presentation.screens.roomdetails.RoomDetailsScreen
 import com.softeq.blahblahrooms.presentation.screens.rooms.RoomsScreen
 import com.softeq.blahblahrooms.presentation.screens.roomupdate.RoomUpdateScreen
 
 @Composable
-fun Navigation() {
-    val navController = rememberNavController()
-
-    NavHost(navController = navController, startDestination = NavigationRoute.ROUTE_MAIN) {
-
-        composable(NavigationRoute.ROUTE_MAIN) {
-            MainScreen(
-                navController = navController
-            )
-        }
-
+fun Navigation(navController: NavHostController) {
+    NavHost(navController = navController, startDestination = NavigationRoute.ROUTE_ROOMS) {
         composable(NavigationRoute.ROUTE_ROOMS) {
             RoomsScreen(navController = navController)
         }
