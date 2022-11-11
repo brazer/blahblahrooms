@@ -4,7 +4,6 @@ import com.softeq.blahblahrooms.data.model.NewPlacement
 import com.softeq.blahblahrooms.data.model.PlacementType
 import com.softeq.blahblahrooms.domain.models.Room
 
-
 fun Room.asNewPlacement(): NewPlacement {
     return NewPlacement(
         type = PlacementType.FLAT,
@@ -13,7 +12,7 @@ fun Room.asNewPlacement(): NewPlacement {
         longitude = this.location.longitude,
         latitude = this.location.latitude,
         address = this.address,
-        city = "",
+        city = this.city,
         price = this.price.toDouble(),
         active = true,
         period = this.period,

@@ -14,7 +14,8 @@ fun PlacementDTO.asRoom(): Room {
         address = this.address,
         period = if (this.period == 0) Period.SHORT else Period.LONG,
         description = this.description,
-        email = this.contacts
+        email = this.contacts,
+        city = this.city
     )
 }
 
@@ -26,7 +27,7 @@ fun Room.asPlacementDTO(): PlacementDTO {
         contacts = this.email,
         coordinates = this.location.latitude,
         address = this.address,
-        city = "",
+        city = this.city,
         price = this.price.toDouble(),
         active = true,
         period = if (this.period == Period.SHORT) 0 else 1,

@@ -1,5 +1,6 @@
 package com.softeq.blahblahrooms.domain.di
 
+import android.content.Context
 import com.softeq.blahblahrooms.domain.repositories.RoomsLocalRepo
 import com.softeq.blahblahrooms.domain.repositories.RoomsRepo
 import com.softeq.blahblahrooms.domain.repositories.UserIdRepo
@@ -7,6 +8,7 @@ import com.softeq.blahblahrooms.domain.usecases.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
 @InstallIn(SingletonComponent::class)
@@ -70,9 +72,25 @@ object UseCasesModule {
     }
 
     @Provides
-    fun provide(roomsLocalRepo: RoomsLocalRepo): GetRoomByIdUseCase {
+    fun provideGetRoomByIdUseCase(roomsLocalRepo: RoomsLocalRepo): GetRoomByIdUseCase {
         return GetRoomByIdUseCaseImpl(
             roomsLocalRepo
+        )
+    }
+
+    @Provides
+    fun provideGetRoomsByFiltersUseCase(roomsLocalRepo: RoomsLocalRepo): GetRoomsByFiltersUseCase {
+        return GetRoomsByFiltersUseCaseImpl(
+            roomsLocalRepo
+        )
+    }
+
+    @Provides
+    fun provideGetUserCityLocationUseCase(
+        @ApplicationContext context: Context
+    ): GetUserCityLocationUseCase {
+        return GetUserCityLocationUseCaseImpl(
+            context = context
         )
     }
 }
