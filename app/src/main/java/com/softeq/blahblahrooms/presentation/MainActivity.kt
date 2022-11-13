@@ -13,7 +13,8 @@ import androidx.compose.ui.Modifier
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import com.softeq.blahblahrooms.data.providers.CurrentLocationProvider
-import com.softeq.blahblahrooms.presentation.route.Navigation
+import com.softeq.blahblahrooms.presentation.screens.main.MainScreen
+import com.softeq.blahblahrooms.presentation.screens.splash.SplashScreen
 import com.softeq.blahblahrooms.presentation.ui.BlahBlahRoomsTheme
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -22,17 +23,19 @@ import timber.log.Timber
 class MainActivity : ComponentActivity() {
 
     @SuppressLint("MissingPermission")
-    private val permissionFlow = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-        if (!permissions.containsValue(false)) {
-            val fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-            fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-                Timber.d("Location = $location")
-                if (location != null) {
-                    CurrentLocationProvider.location = LatLng(location.latitude, location.longitude)
+    private val permissionFlow =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            if (!permissions.containsValue(false)) {
+                val fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+                fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+                    Timber.d("Location = $location")
+                    if (location != null) {
+                        CurrentLocationProvider.location =
+                            LatLng(location.latitude, location.longitude)
+                    }
                 }
             }
         }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +46,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Navigation()
+                    MainScreen()
+                    SplashScreen()
                 }
             }
         }

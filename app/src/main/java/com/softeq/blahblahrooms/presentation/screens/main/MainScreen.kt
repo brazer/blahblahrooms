@@ -1,28 +1,19 @@
 package com.softeq.blahblahrooms.presentation.screens.main
 
 import android.widget.Toast
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.softeq.blahblahrooms.R
 import com.softeq.blahblahrooms.presentation.components.ProgressView
-import com.softeq.blahblahrooms.presentation.components.TopBlahBlahRoomsBar
-import com.softeq.blahblahrooms.presentation.route.NavigationArguments
-import com.softeq.blahblahrooms.presentation.route.NavigationRoute
-import com.softeq.blahblahrooms.presentation.route.navigateString
+import com.softeq.blahblahrooms.presentation.route.*
 import com.softeq.blahblahrooms.presentation.vm.main.MainSideEffect
 import com.softeq.blahblahrooms.presentation.vm.main.MainViewModel
 import org.orbitmvi.orbit.compose.collectAsState
@@ -30,15 +21,39 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(
-    navController: NavController
-) {
+fun MainScreen() {
+    val navController = rememberNavController()
 
     val mainViewModel: MainViewModel = hiltViewModel()
     val state = mainViewModel.collectAsState()
     val context = LocalContext.current
 
-    mainViewModel.collectSideEffect { sideEffect ->
+    var selectedItem by remember { mutableStateOf(1) }
+    val tabs = listOf(
+        NavigationBottomItem(
+            icon = painterResource(id = R.drawable.ic_add_room),
+            label = stringResource(id = R.string.add_room),
+            route = NavigationRoute.ROUTE_ADD_ROOM
+        ),
+        NavigationBottomItem(
+            icon = painterResource(id = R.drawable.ic_search_room),
+            label = stringResource(id = R.string.rooms_flats),
+            route = NavigationRoute.ROUTE_ROOMS
+        ),
+        NavigationBottomItem(
+            icon = painterResource(id = R.drawable.ic_manage_room),
+            label = stringResource(id = R.string.manage_rooms),
+            route = NavigationRoute.ROUTE_MANAGE_ROOMS
+        )
+    )
+
+    LaunchedEffect(key1 = null, block = {
+        mainViewModel.initScreen(
+            tabs
+        )
+    })
+
+    mainViewModel.collectSideEffect() { sideEffect ->
         when (sideEffect) {
             MainSideEffect.NavigateToManageRoomsScreen -> {
                 navController.navigate(NavigationRoute.ROUTE_MANAGE_ROOMS)
@@ -58,55 +73,36 @@ fun MainScreen(
                     Toast.LENGTH_SHORT
                 ).show()
             }
-            MainSideEffect.NavigateToAddRoomScreen -> {
-                navController.navigate(
-                    NavigationRoute.ROUTE_ADD_ROOM
-                )
-            }
-            MainSideEffect.NavigateToRoomsScreen -> {
-                navController.navigate(NavigationRoute.ROUTE_ROOMS)
+            is MainSideEffect.NavigateToRoute -> {
+                navController.navigate(sideEffect.route)
             }
         }
     }
 
     Scaffold(
-        topBar = { TopBlahBlahRoomsBar(title = stringResource(id = R.string.home)) }
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(it)
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Button(onClick = {
-                mainViewModel.addRoomsButtonClicked()
-            }) {
-                Text(text = stringResource(id = R.string.add_room))
-            }
-            Button(onClick = {
-                mainViewModel.roomsButtonClicked()
-            }) {
-                Text(stringResource(id = R.string.rooms_flats))
-            }
-            if (state.value.isManageRoomButtonVisible) {
-                Button(onClick = {
-                    mainViewModel.manageRoomsButtonClicked()
-                }) {
-                    Text(text = stringResource(id = R.string.manage_rooms))
+        bottomBar = {
+            NavigationBar {
+                state.value.tabs.forEachIndexed { index, tab ->
+                    NavigationBarItem(
+                        icon = { Icon(tab.icon, contentDescription = tab.label) },
+                        label = { Text(tab.label) },
+                        selected = selectedItem == index,
+                        onClick = {
+                            selectedItem = index
+                            mainViewModel.navigationTabClicked(tab.route)
+                        }
+                    )
                 }
             }
+        }
+    ) {
+        Box(
+            modifier = Modifier.padding(it)
+        ) {
+            Navigation(navController = navController)
         }
         if (state.value.isLoading) {
             ProgressView()
         }
     }
-}
-
-@Preview
-@Composable
-fun PreviewMainScreen() {
-    MainScreen(
-        navController = NavController(LocalContext.current)
-    )
 }
