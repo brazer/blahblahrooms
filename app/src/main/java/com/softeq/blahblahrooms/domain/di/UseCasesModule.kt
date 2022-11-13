@@ -46,13 +46,6 @@ object UseCasesModule {
     }
 
     @Provides
-    fun provideGetRoomsUseCase(
-        roomsLocalRepo: RoomsLocalRepo
-    ): GetRoomsUseCase {
-        return GetRoomsUseCaseImpl(roomsLocalRepo)
-    }
-
-    @Provides
     fun provideAddRoomUseCase(
         roomsRepo: RoomsRepo,
         roomsLocalRepo: RoomsLocalRepo
