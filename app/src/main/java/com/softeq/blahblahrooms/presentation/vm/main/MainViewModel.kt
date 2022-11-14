@@ -56,6 +56,7 @@ class MainViewModel @Inject constructor(
     ) = intent {
         useCase {
             getRoomsByUserIdUseCase.invoke().collect {
+                userRooms = it
                 reduce { state.copy(tabs = tabs) }
             }
         }

@@ -101,17 +101,19 @@ fun MainScreen() {
 
     Scaffold(
         bottomBar = {
-            NavigationBar {
-                state.value.tabs.forEachIndexed { index, tab ->
-                    NavigationBarItem(
-                        icon = { Icon(tab.icon, contentDescription = tab.label) },
-                        label = { Text(tab.label) },
-                        selected = selectedItem == index,
-                        onClick = {
-                            selectedItem = index
-                            mainViewModel.navigationTabClicked(tab.route)
-                        }
-                    )
+            if (currentDestination?.route?.contains(NavigationRoute.ROUTE_ROOM_UPDATE) != true) {
+                NavigationBar {
+                    state.value.tabs.forEachIndexed { index, tab ->
+                        NavigationBarItem(
+                            icon = { Icon(tab.icon, contentDescription = tab.label) },
+                            label = { Text(tab.label) },
+                            selected = selectedItem == index,
+                            onClick = {
+                                selectedItem = index
+                                mainViewModel.navigationTabClicked(tab.route)
+                            }
+                        )
+                    }
                 }
             }
         }
