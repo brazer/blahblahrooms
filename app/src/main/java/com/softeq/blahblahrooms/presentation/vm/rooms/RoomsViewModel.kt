@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.softeq.blahblahrooms.data.models.Period
 import com.softeq.blahblahrooms.domain.models.Room
 import com.softeq.blahblahrooms.domain.usecases.GetRoomsByFiltersUseCase
-import com.softeq.blahblahrooms.domain.usecases.GetRoomsUseCase
 import com.softeq.blahblahrooms.domain.usecases.GetUserCityLocationUseCase
 import com.softeq.blahblahrooms.presentation.vm.useCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +19,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RoomsViewModel @Inject constructor(
-    private val getRoomsUseCase: GetRoomsUseCase,
     private val getUserCityLocationUseCase: GetUserCityLocationUseCase,
     private val getRoomsByFiltersUseCase: GetRoomsByFiltersUseCase,
 ) : ContainerHost<RoomsState, RoomsSideEffect>, ViewModel() {

@@ -19,10 +19,12 @@ class MarkerRenderer(
     private val markerIcon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker)
 
     override fun onClusterItemUpdated(item: RoomMarker, marker: Marker) {
+        super.onClusterItemUpdated(item, marker)
         marker.setIcon(markerIcon)
     }
 
     override fun onBeforeClusterItemRendered(item: RoomMarker, markerOptions: MarkerOptions) {
+        super.onBeforeClusterItemRendered(item, markerOptions)
         markerOptions.icon(markerIcon)
     }
 

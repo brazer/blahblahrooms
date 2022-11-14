@@ -14,8 +14,7 @@ class App : Application(), OnMapsSdkInitializedCallback {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
-        //fixme: setOnClusterClickListener works for legacy version only
-        MapsInitializer.initialize(applicationContext, MapsInitializer.Renderer.LEGACY, this)
+        MapsInitializer.initialize(applicationContext, MapsInitializer.Renderer.LATEST, this)
     }
 
     override fun onMapsSdkInitialized(renderer: MapsInitializer.Renderer) {

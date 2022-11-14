@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -27,7 +27,7 @@ import org.orbitmvi.orbit.compose.collectSideEffect
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RoomsScreen(navController: NavController) {
-    val pagerState = remember { mutableStateOf(1) }
+    val pagerState = rememberSaveable { mutableStateOf(1) }
     val pages = listOf(
         stringResource(id = R.string.list),
         stringResource(id = R.string.map),
