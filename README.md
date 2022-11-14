@@ -1,6 +1,30 @@
+## Inspiration
+Main idea is inspired by the BlaBlaCar app, but based on rooms.
+
+## What it does
+The app allows users to find a roommate. There are 2 cases: in the first case, you rent a room and 
+you can add in the app to add the room; in other case, you don't have a room and you can find the room 
+in the app to share it with another roommate.
+
+## How we built it
+We created a client-server app with Google Maps Platform. 
+
+## Challenges we ran into
+The main challenge is implementation of Google Map for Jetpack Compose. 
+
+## Accomplishments that we're proud of
+We implemented the app with back-end, database, Google Maps, Jetpack Compose, Clean Architecture and 
+MVI.
+
+## What we learned
+How to implement Google Maps in Jetpack Compose.
+
+## What's next for BlahBlahRooms
+Improve design, add more features (authorisation, first of all).
+
 # Introduction
 
-The BlahBlahRooms app allows a user to find a room or a flat on the map.
+The BlahBlahRooms app allows a user to find a roommate.
 This app is created by a template for doing Android development using GitLab and [fastlane](https://fastlane.tools/).
 It is based on the tutorial for Android apps in general that can be found [here](https://developer.android.com/training/basics/firstapp/). 
 If you're learning Android at the same time, you can also follow along that
