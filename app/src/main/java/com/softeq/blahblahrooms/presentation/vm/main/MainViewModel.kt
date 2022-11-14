@@ -56,12 +56,7 @@ class MainViewModel @Inject constructor(
     ) = intent {
         useCase {
             getRoomsByUserIdUseCase.invoke().collect {
-                userRooms = it
-                if (userRooms.isNotEmpty()) {
-                    reduce { state.copy(tabs = tabs) }
-                } else {
-                    reduce { state.copy(tabs = tabs.dropLast(1)) }
-                }
+                reduce { state.copy(tabs = tabs) }
             }
         }
     }

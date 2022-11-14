@@ -45,4 +45,8 @@
 
     <!--    Error-->
     <string name="default_error">Something went wrong</string>
+
+    <!--    Empty list rooms-->
+    <string name="empty_manage_rooms">The list of rooms is empty. Please add rooms to manage.</string>
+    <string name="empty_filter_rooms">The list of rooms is empty. Please change the filter.</string>
 </resources>
