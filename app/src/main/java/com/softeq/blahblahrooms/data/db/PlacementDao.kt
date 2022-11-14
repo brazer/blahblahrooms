@@ -31,7 +31,7 @@ interface PlacementDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllPlacements(placements: List<PlacementDTO>)
 
-    @Insert()
+    @Insert
     fun insertPlacement(placement: PlacementDTO)
 
     @Update

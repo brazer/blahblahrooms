@@ -10,6 +10,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.softeq.blahblahrooms.R
 import com.softeq.blahblahrooms.presentation.components.ProgressView
@@ -51,6 +52,25 @@ fun MainScreen() {
         mainViewModel.initScreen(
             tabs
         )
+    })
+
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
+    LaunchedEffect(key1 = currentDestination, block = {
+        selectedItem = when (currentDestination?.route) {
+            NavigationRoute.ROUTE_ADD_ROOM -> {
+                0
+            }
+            NavigationRoute.ROUTE_ROOMS -> {
+                1
+            }
+            NavigationRoute.ROUTE_MANAGE_ROOMS -> {
+                2
+            }
+            else -> {
+                1
+            }
+        }
     })
 
     mainViewModel.collectSideEffect() { sideEffect ->
