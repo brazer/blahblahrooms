@@ -11,7 +11,7 @@ class UpdateRoomUseCaseImpl(
     private val localRepo: RoomsLocalRepo
 ) : UpdateRoomUseCase {
     override suspend fun invoke(room: Room) = withContext(Dispatchers.IO) {
-        val room = repo.updateRoom(room)
-        localRepo.updateRoom(room)
+        val roomUpdated = repo.updateRoom(room)
+        localRepo.updateRoom(roomUpdated.copy(id = room.id))
     }
 }

@@ -15,8 +15,10 @@ data class PlacementDTO(
     val description: String = "",
     @ColumnInfo(name = "contacts")
     val contacts: String = "",
-    @ColumnInfo(name = "coordinates")
-    val coordinates: Double = 0.0,
+    @ColumnInfo(name = "longitude")
+    val longitude: Double = 0.0,
+    @ColumnInfo(name = "latitude")
+    val latitude: Double = 0.0,
     @ColumnInfo(name = "address")
     val address: String = "",
     @ColumnInfo(name = "city")
