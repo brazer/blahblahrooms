@@ -73,7 +73,7 @@ fun MainScreen() {
         }
     })
 
-    mainViewModel.collectSideEffect() { sideEffect ->
+    mainViewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
             MainSideEffect.NavigateToManageRoomsScreen -> {
                 navController.navigate(NavigationRoute.ROUTE_MANAGE_ROOMS)

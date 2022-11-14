@@ -51,10 +51,6 @@ class RoomsViewModel @Inject constructor(
         postSideEffect(RoomsSideEffect.NavigateToRoomDetailsScreen(id))
     }
 
-    fun backButtonClicked() = intent {
-        postSideEffect(RoomsSideEffect.BackToPreviousScreen)
-    }
-
     fun filtersButtonClicked() = intent {
         reduce { state.copy(isVisibleFilters = !state.isVisibleFilters) }
         useCase {
@@ -103,12 +99,27 @@ class RoomsViewModel @Inject constructor(
                         state.copy(
                             rooms = rooms,
                             isLoading = false,
-                            isVisibleFilters = false
+                            isVisibleFilters = false,
+                            filterCounter = calculateFilterCounter(state)
                         )
                     }
                 }
             }
         }
+    }
+
+    private fun calculateFilterCounter(state: RoomsState): Int {
+        var counter = 0
+        if (state.period != null) {
+            counter++
+        }
+        if (state.city != null && state.city.isNotBlank()) {
+            counter++
+        }
+        if (state.maxPrice != null || state.minPrice != null) {
+            counter++
+        }
+        return counter
     }
 
     fun dismissFiltersRequest() = intent {
@@ -124,10 +135,10 @@ data class RoomsState(
     val isVisibleFilters: Boolean = false,
     val city: String? = null,
     val minPrice: Double? = null,
-    val maxPrice: Double? = null
+    val maxPrice: Double? = null,
+    val filterCounter: Int = 0
 )
 
 sealed class RoomsSideEffect {
-    object BackToPreviousScreen : RoomsSideEffect()
     data class NavigateToRoomDetailsScreen(val roomId: Int) : RoomsSideEffect()
 }

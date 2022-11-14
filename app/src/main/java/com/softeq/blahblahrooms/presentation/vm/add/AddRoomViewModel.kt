@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.google.android.gms.maps.model.LatLng
 import com.softeq.blahblahrooms.App
+import com.softeq.blahblahrooms.R
 import com.softeq.blahblahrooms.data.models.Period
 import com.softeq.blahblahrooms.data.providers.isValid
 import com.softeq.blahblahrooms.domain.models.Room
@@ -51,17 +52,14 @@ class AddRoomViewModel @Inject constructor(
                 postSideEffect(AddRoomSideEffect.ShowError(errorMessage))
             } else {
                 addRoomUseCase.invoke(state.room)
+                postSideEffect(AddRoomSideEffect.ShowMessage(getContext().getString(R.string.room_added)))
+                postSideEffect(AddRoomSideEffect.OnRoomAdded)
             }
             reduce { state.copy(isLoading = false) }
-            postSideEffect(AddRoomSideEffect.NavigatedBack)
         }
     }
 
     private fun getContext() = getApplication<App>()
-
-    fun onBackButtonClicked() = intent {
-        postSideEffect(AddRoomSideEffect.NavigatedBack)
-    }
 
     override fun roomPriceChanged(price: Float) = intent {
         reduce { state.copy(room = state.room.copy(price = price)) }
@@ -113,6 +111,7 @@ data class AddRoomState(
 )
 
 sealed class AddRoomSideEffect {
-    object NavigatedBack : AddRoomSideEffect()
+    data class ShowMessage(val message: String) : AddRoomSideEffect()
+    object OnRoomAdded : AddRoomSideEffect()
     data class ShowError(val errorMessage: String) : AddRoomSideEffect()
 }

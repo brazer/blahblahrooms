@@ -45,7 +45,7 @@ class RoomsLocalRepoImpl(
                 Period.SHORT -> listOf(0)
                 null -> listOf(0, 1)
             },
-            city = city ?: "%",
+            city = if (city.isNullOrBlank()) "%" else city,
             minPrice = minPrice ?: Double.MIN_VALUE,
             maxPrice = maxPrice ?: Double.MAX_VALUE
         ).map { placements ->
