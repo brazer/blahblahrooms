@@ -40,16 +40,12 @@ fun ManageRoomsScreen(
                     )
                 )
             }
-            ManageRoomsSideEffect.BackToPreviousScreen -> navController.popBackStack()
         }
     }
 
     Scaffold(
         topBar = {
-            TopBlahBlahRoomsBar(
-                title = stringResource(id = R.string.manage_rooms),
-                manageRoomsViewModel::onBackButtonClicked
-            )
+            TopBlahBlahRoomsBar(title = stringResource(id = R.string.manage_rooms))
         }
     ) {
         if (state.value.rooms.isEmpty()) {

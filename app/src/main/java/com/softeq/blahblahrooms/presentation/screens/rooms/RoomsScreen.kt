@@ -1,14 +1,17 @@
 package com.softeq.blahblahrooms.presentation.screens.rooms
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.softeq.blahblahrooms.R
@@ -19,6 +22,7 @@ import com.softeq.blahblahrooms.presentation.components.TopBlahBlahRoomsBar
 import com.softeq.blahblahrooms.presentation.route.NavigationArguments
 import com.softeq.blahblahrooms.presentation.route.NavigationRoute
 import com.softeq.blahblahrooms.presentation.route.navigateString
+import com.softeq.blahblahrooms.presentation.ui.BlahBlahRoomsTheme
 import com.softeq.blahblahrooms.presentation.vm.rooms.RoomsSideEffect
 import com.softeq.blahblahrooms.presentation.vm.rooms.RoomsViewModel
 import org.orbitmvi.orbit.compose.collectAsState
@@ -38,9 +42,6 @@ fun RoomsScreen(navController: NavController) {
 
     roomsViewModel.collectSideEffect { sideEffect ->
         when (sideEffect) {
-            RoomsSideEffect.BackToPreviousScreen -> {
-                navController.popBackStack()
-            }
             is RoomsSideEffect.NavigateToRoomDetailsScreen -> {
                 navController.navigate(
                     navigateString(
@@ -56,11 +57,12 @@ fun RoomsScreen(navController: NavController) {
         topBar = {
             TopBlahBlahRoomsBar(
                 stringResource(R.string.rooms_flats),
-                roomsViewModel::backButtonClicked,
+                null,
                 actions = {
-                    Button(onClick = { roomsViewModel.filtersButtonClicked() }) {
-                        Text(text = stringResource(id = R.string.filters))
-                    }
+                    FilterButton(
+                        counter = state.value.filterCounter,
+                        filtersButtonClicked = roomsViewModel::filtersButtonClicked
+                    )
                 }
             )
         }
@@ -140,10 +142,13 @@ fun RoomsScreen(navController: NavController) {
                                 .padding(8.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
+                            var price = state.value.minPrice
+                            var min by remember { mutableStateOf(price?.toString() ?: "") }
                             OutlinedTextField(
                                 modifier = Modifier.weight(1f),
-                                value = state.value.minPrice?.toString() ?: 0.0.toString(),
+                                value = min,
                                 onValueChange = { text ->
+                                    min = text ?: ""
                                     roomsViewModel.minPriceFilterChanged(text.toDoubleOrNull())
                                 },
                                 label = {
@@ -154,10 +159,13 @@ fun RoomsScreen(navController: NavController) {
                                     )
                                 })
                             Spacer(modifier = Modifier.width(10.dp))
+                            price = state.value.maxPrice
+                            var max by remember { mutableStateOf(price?.toString() ?: "") }
                             OutlinedTextField(
                                 modifier = Modifier.weight(1f),
-                                value = state.value.maxPrice?.toString() ?: 0.0.toString(),
+                                value = max,
                                 onValueChange = { text ->
+                                    max = text ?: ""
                                     roomsViewModel.maxPriceFilterChanged(text.toDoubleOrNull())
                                 },
                                 label = {
@@ -201,5 +209,42 @@ fun RoomsScreen(navController: NavController) {
         if (state.value.isLoading) {
             ProgressView()
         }
+    }
+}
+
+@Composable
+private fun FilterButton(counter: Int, filtersButtonClicked: () -> Unit) {
+        Button(onClick = filtersButtonClicked) {
+            ConstraintLayout {
+                val (buttonText, counterText) = createRefs()
+                Text(
+                    modifier = Modifier.constrainAs(buttonText) {},
+                    text = stringResource(id = R.string.filters)
+                )
+                Text(
+                    modifier = Modifier
+                        .constrainAs(counterText) {
+                            start.linkTo(buttonText.end)
+                            bottom.linkTo(buttonText.top)
+                            top.linkTo(parent.top)
+                        }
+                        .background(
+                            MaterialTheme.colorScheme.tertiary,
+                            shape = MaterialTheme.shapes.extraSmall
+                        )
+                        .width(12.dp),
+                    textAlign = TextAlign.Center,
+                    text = counter.toString(),
+                    style = MaterialTheme.typography.labelSmall
+                )
+            }
+        }
+}
+
+@Preview
+@Composable
+fun FilterButtonPreview() {
+    BlahBlahRoomsTheme(useDarkTheme = false) {
+        FilterButton(1) {}
     }
 }

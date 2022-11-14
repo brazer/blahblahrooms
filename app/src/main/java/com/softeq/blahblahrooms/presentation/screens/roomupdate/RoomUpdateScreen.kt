@@ -59,7 +59,7 @@ fun RoomUpdateScreen(
 
     state.value.room?.let { room ->
         Scaffold(
-            topBar = { TopBlahBlahRoomsBar(room.address, roomUpdateViewModel::cancelButtonClicked) }
+            topBar = { TopBlahBlahRoomsBar(room.address) }
         ) {
             val scrollState = rememberScrollState()
             Column(modifier = Modifier

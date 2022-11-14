@@ -17,6 +17,7 @@ import com.softeq.blahblahrooms.domain.models.Room
 import com.softeq.blahblahrooms.presentation.components.EditRoom
 import com.softeq.blahblahrooms.presentation.components.ProgressView
 import com.softeq.blahblahrooms.presentation.components.TopBlahBlahRoomsBar
+import com.softeq.blahblahrooms.presentation.route.NavigationRoute
 import com.softeq.blahblahrooms.presentation.vm.add.AddRoomSideEffect
 import com.softeq.blahblahrooms.presentation.vm.add.AddRoomViewModel
 import org.orbitmvi.orbit.compose.collectAsState
@@ -31,10 +32,7 @@ fun AddRoomScreen(navController: NavController) {
 
     Scaffold(
         topBar = {
-            TopBlahBlahRoomsBar(
-                stringResource(id = R.string.add_room),
-                viewModel::onBackButtonClicked
-            )
+            TopBlahBlahRoomsBar(stringResource(id = R.string.add_room))
         }
     ) {
 
@@ -53,8 +51,12 @@ fun AddRoomScreen(navController: NavController) {
             is AddRoomSideEffect.ShowError -> {
                 Toast.makeText(context, sideEffect.errorMessage, Toast.LENGTH_SHORT).show()
             }
-            AddRoomSideEffect.NavigatedBack -> {
+            is AddRoomSideEffect.ShowMessage -> {
+                Toast.makeText(context, sideEffect.message, Toast.LENGTH_SHORT).show()
+            }
+            AddRoomSideEffect.OnRoomAdded -> {
                 navController.popBackStack()
+                navController.navigate(NavigationRoute.ROUTE_ADD_ROOM)
             }
         }
     }

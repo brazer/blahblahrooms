@@ -2,17 +2,12 @@ package com.softeq.blahblahrooms.presentation.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Card
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.google.android.gms.maps.model.LatLng
-import com.softeq.blahblahrooms.R
 import com.softeq.blahblahrooms.data.models.Period
 import com.softeq.blahblahrooms.data.providers.getPriceUSFormat
 import com.softeq.blahblahrooms.domain.models.Room
@@ -24,7 +19,7 @@ fun RoomTile(
     room: Room,
     onClick: (id: Int) -> Unit
 ) {
-    Card(
+    OutlinedCard(
         modifier = Modifier
             .padding(8.dp)
             .clickable {
@@ -36,18 +31,30 @@ fun RoomTile(
             Row(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(text = room.address)
+                Text(
+                    modifier = Modifier.padding(end = 2.dp),
+                    text = room.city,
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Text(
+                    text = room.address,
+                    style = MaterialTheme.typography.bodyMedium
+                )
                 Spacer(modifier = Modifier.weight(1f))
-                Text(text = room.getPriceUSFormat())
+                Text(
+                    text = room.getPriceUSFormat(),
+                    style = MaterialTheme.typography.bodyLarge
+                )
             }
-            Text(text = "${stringResource(id = R.string.description)}: \n ${room.description}")
-            Text(text = "${stringResource(id = R.string.contacts)}: ${room.email}")
             Text(
-                text = "${stringResource(id = R.string.location)}: lat = ${room.location.latitude}," +
-                        " lng = ${room.location.longitude}"
+                text = room.description,
+                style = MaterialTheme.typography.bodySmall
             )
             val period = Json.encodeToString(room.period).replace("\"", "")
-            Text(text = "${stringResource(id = R.string.period)}: $period")
+            Text(
+                text = period,
+                style = MaterialTheme.typography.bodyMedium
+            )
         }
     }
 }
