@@ -46,8 +46,8 @@ class RoomsLocalRepoImpl(
                 null -> listOf(0, 1)
             },
             city = if (city.isNullOrBlank()) "%" else city,
-            minPrice = minPrice ?: Double.MIN_VALUE,
-            maxPrice = maxPrice ?: Double.MAX_VALUE
+            minPrice = minPrice ?: .0,
+            maxPrice = maxPrice ?: Int.MAX_VALUE.toDouble()
         ).map { placements ->
             placements.map {
                 it.asRoom()

@@ -25,7 +25,7 @@ interface PlacementDao {
         period: List<Int>,
         city: String,
         minPrice: Double,
-        maxPrice: Double,
+        maxPrice: Double
     ): Flow<List<PlacementDTO>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
