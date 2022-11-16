@@ -20,7 +20,7 @@ MVI.
 How to implement Google Maps in Jetpack Compose.
 
 ## What's next for BlahBlahRooms
-Improve design, add more features (authorisation, first of all).
+Fix bugs, improve design, add more features (authorisation, first of all).
 
 # Introduction
 
@@ -96,3 +96,5 @@ scheme you may want to change this.
     - "export VERSION_CODE=$(($CI_PIPELINE_IID)) && echo $VERSION_CODE"
     - "export VERSION_SHA=`echo ${CI_COMMIT_SHA:0:8}` && echo $VERSION_SHA"
 ```
+
+Apache License, Version 2.0
