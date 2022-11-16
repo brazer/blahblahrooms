@@ -74,6 +74,7 @@ fun MainScreen() {
     })
 
     mainViewModel.collectSideEffect { sideEffect ->
+        navController.popBackStack()
         when (sideEffect) {
             MainSideEffect.NavigateToManageRoomsScreen -> {
                 navController.navigate(NavigationRoute.ROUTE_MANAGE_ROOMS)
